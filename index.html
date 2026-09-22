@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>シティカート — 実在の街を走るカートレース</title>
+  <meta name="description" content="PLATEAU 3D都市モデルで再現した広島・松江・福山の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。" />
+  <!-- 英語表記は各要素の data-en / data-en-html に持たせ、末尾のスクリプトで差し替える。
+       各ゲームへのリンクは data-href-en に英語版の URL を持たせ、言語に合わせて張り替える。 -->
+  <meta name="theme-color" content="#0b1a2a" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="City Kart" />
+  <meta property="og:title" content="シティカート — 実在の街を走るカートレース" />
+  <meta property="og:description" content="広島・松江・福山の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
+  <meta property="og:url" content="https://tatsuya1970.github.io/city-kart/" />
+  <meta property="og:image" content="https://tatsuya1970.github.io/city-kart/images/hero-poster.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://tatsuya1970.github.io/city-kart/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1a2a'/%3E%3Cpath d='M12 12h10v10H12zM32 12h10v10H32zM22 22h10v10H22zM42 22h10v10H42zM12 32h10v10H12zM32 32h10v10H32zM22 42h10v10H22zM42 42h10v10H42z' fill='%23ffd83d'/%3E%3C/svg%3E" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #0b1a2a;
+      --bg-2: #0f2135;
+      --fg: #eef1f4;
+      --muted: #9aa8b6;
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #ffd83d;
+      --accent-shadow: #b6201f;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+
+    /* ---- 上部バー（ヒーローに重ねる） ---- */
+    .topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px clamp(16px, 4vw, 40px);
+    }
+    .sitename {
+      font-size: 15px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-shadow: 0 2px 0 var(--accent-shadow);
+    }
+    #langs { display: flex; gap: 4px; }
+    .lang-opt {
+      background: none;
+      border: 0;
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.55);
+      font: inherit;
+      font-size: 12.5px;
+      line-height: 1.4;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    .lang-opt:hover { color: #fff; }
+    .lang-opt.selected { color: #fff; background: rgba(255, 255, 255, 0.14); }
+
+    /* ---- ヒーロー（背景動画 + 下からの暗幕） ---- */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-media { position: absolute; inset: 0; }
+    .hero-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, var(--bg) 2%, rgba(11, 26, 42, 0.5) 44%, rgba(11, 26, 42, 0.08) 100%),
+        linear-gradient(to right, rgba(11, 26, 42, 0.55), transparent 62%);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 clamp(16px, 4vw, 40px) clamp(56px, 10vh, 104px);
+    }
+    .hero .kicker {
+      margin: 0 0 10px;
+      font-size: clamp(22px, 4.2vw, 40px);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--accent);
+      text-shadow: 0 3px 0 var(--accent-shadow), 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .hero h1 {
+      margin: 0 0 18px;
+      font-size: clamp(30px, 6.4vw, 60px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      max-width: 15em;
+    }
+    .hero .lead {
+      margin: 0 0 30px;
+      max-width: 31em;
+      color: #d2d9e0;
+      font-size: clamp(14.5px, 2.2vw, 17px);
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .btn.primary { background: var(--accent); color: #1a1405; }
+    .btn.primary:hover { background: #ffe57a; }
+    .btn.ghost { border: 1px solid var(--line); color: var(--fg); }
+    .btn.ghost:hover { border-color: rgba(255, 255, 255, 0.45); }
+
+    /* ---- セクション共通 ---- */
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(64px, 11vw, 108px) clamp(16px, 4vw, 40px);
+    }
+    .section h2 {
+      margin: 0 0 8px;
+      font-size: clamp(21px, 3.4vw, 28px);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .section .note { margin: 0 0 36px; color: var(--muted); font-size: 14.5px; }
+
+    /* ---- コース一覧 ---- */
+    .courses { display: grid; gap: 28px; }
+    .course {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: clamp(20px, 4vw, 44px);
+      align-items: center;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .courses .course:last-child { border-bottom: 0; padding-bottom: 0; }
+    .course .shot {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 6px;
+      background: var(--bg-2);
+    }
+    .course .shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .course:hover .shot img { transform: scale(1.03); }
+    .course .brand {
+      margin: 0 0 2px;
+      font-size: 13px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+    }
+    .course h3 { margin: 0 0 4px; font-size: clamp(19px, 3vw, 24px); font-weight: 700; }
+    .course .where { margin: 0 0 12px; color: var(--muted); font-size: 12.5px; letter-spacing: 0.04em; }
+    .course .spec {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 14px;
+      padding: 0;
+      list-style: none;
+    }
+    .course .spec li {
+      padding: 2px 10px;
+      border: 1px solid rgba(255, 216, 61, 0.4);
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+    .course p.desc { margin: 0 0 16px; color: #c6ced6; font-size: 14.5px; }
+    .course .go { font-size: 14.5px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.35); padding-bottom: 2px; }
+    .course:hover .go { border-bottom-color: var(--accent); color: var(--accent); }
+
+    /* ---- できること ---- */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px 36px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 40px;
+    }
+    .fact h3 { margin: 0 0 6px; font-size: 15.5px; font-weight: 700; }
+    .fact p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #7f8c99;
+      font-size: 12.5px;
+      line-height: 1.9;
+    }
+    footer .inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px clamp(16px, 4vw, 40px) 44px;
+    }
+    footer a { color: #bcc6cf; text-decoration: underline; text-underline-offset: 2px; }
+
+    @media (max-width: 720px) {
+      .course { grid-template-columns: 1fr; gap: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .course .shot img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-media">
+      <!-- 背景動画は広島を主役に、松江・福山のプロモ素材をつないだもの（scripts/build-media.mjs）。
+           poster は動画の頭のコマで、読み込み前や自動再生が止められたときはこれが出たままになる。
+           動画ファイル(src)は画面幅を見て下のスクリプトが入れる。ここに <source> を書くと
+           スマホでも先に重い方の取得が始まってしまうため。 -->
+      <video autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg"></video>
+    </div>
+
+    <div class="topbar">
+      <div class="sitename">CITY KART</div>
+      <div id="langs">
+        <button type="button" class="lang-opt" data-lang="ja">日本語</button>
+        <button type="button" class="lang-opt" data-lang="en">English</button>
+      </div>
+    </div>
+
+    <div class="hero-inner">
+      <p class="kicker" data-en="CITY KART">シティカート</p>
+      <h1 data-en="The real city is the circuit.">実在の街が、サーキットになる。</h1>
+      <p class="lead" data-en="Hiroshima, Matsue and Fukuyama, rebuilt from MLIT's PLATEAU 3D city models and turned into race courses. Free, in your browser, nothing to install.">
+        広島・松江・福山の街を、国土交通省 PLATEAU の 3D都市モデルからそのまま起こしてコースにしました。
+        無料で、ブラウザだけで、いますぐ走れます。
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#courses" data-en="Choose a course">コースを選ぶ</a>
+        <a class="btn ghost" href="https://tatsuya1970.github.io/hiroshima-kart/" data-href-en="https://tatsuya1970.github.io/hiroshima-kart/en/" data-en="Race Hiroshima">広島を走る</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="courses">
+    <h2 data-en="Courses">コース</h2>
+    <p class="note" data-en="Buildings, roads and landmarks all come from the real city. The racing line follows actual streets.">
+      建物も道路も名所も、実物から起こしたものです。走行線は実在の道路の上を通ります。
+    </p>
+
+    <div class="courses">
+      <a class="course" href="https://tatsuya1970.github.io/hiroshima-kart/" data-href-en="https://tatsuya1970.github.io/hiroshima-kart/en/">
+        <div class="shot"><img src="images/card-hiroshima.jpg" alt="" loading="lazy" width="1600" height="900" /></div>
+        <div>
+          <p class="brand">HIROSHIMA KART</p>
+          <h3 data-en="Hiroshima Grand Prix">広島グランプリ</h3>
+          <p class="where" data-en="Hiroshima City, Hiroshima">広島県広島市</p>
+          <ul class="spec">
+            <li data-en="7.31 km lap">1周 7.31 km</li>
+            <li data-en="2 laps">2周勝負</li>
+          </ul>
+          <p class="desc" data-en="Leave Hiroshima Station, run through Kamiyacho and past the Atomic Bomb Dome and the EDION Peace Wing, then loop back via Hakushima. The start runs across a deck through the station's second floor.">
+            広島駅を出て紙屋町、原爆ドーム前、エディオンピースウィングを抜け、白島から駅へ戻る周回コース。
+            スタート前後は駅の2階を貫くデッキを走ります。
+          </p>
+          <span class="go" data-en="Race →">走る →</span>
+        </div>
+      </a>
+
+      <a class="course" href="https://tatsuya1970.github.io/matsue-kart/" data-href-en="https://tatsuya1970.github.io/matsue-kart/en/">
+        <div class="shot"><img src="images/card-matsue.jpg" alt="" loading="lazy" width="1600" height="900" /></div>
+        <div>
+          <p class="brand">MATSUE KART</p>
+          <h3 data-en="Matsue Grand Prix">松江グランプリ</h3>
+          <p class="where" data-en="Matsue City, Shimane">島根県松江市</p>
+          <ul class="spec">
+            <li data-en="9.6 km lap">1周 9.6 km</li>
+            <li data-en="2 laps">2周勝負</li>
+          </ul>
+          <p class="desc" data-en="From Matsue Station past the Prefectural Office, around Matsue Castle and Shiomi-nawate, across Lake Shinji Bridge to the sunset spot on the lakeshore, with Yomegashima floating offshore.">
+            松江駅から県庁の前を抜け、松江城と塩見縄手を回り、宍道湖大橋を渡って湖岸の夕日スポットへ。
+            沖には嫁ヶ島が浮かんでいます。
+          </p>
+          <span class="go" data-en="Race →">走る →</span>
+        </div>
+      </a>
+
+      <a class="course" href="https://tatsuya1970.github.io/fukuyama-kart/" data-href-en="https://tatsuya1970.github.io/fukuyama-kart/en/">
+        <div class="shot"><img src="images/card-fukuyama.jpg" alt="" loading="lazy" width="1600" height="900" /></div>
+        <div>
+          <p class="brand">FUKUYAMA KART</p>
+          <h3 data-en="Fukuyama Grand Prix">福山グランプリ</h3>
+          <p class="where" data-en="Fukuyama City, Hiroshima">広島県福山市</p>
+          <ul class="spec">
+            <li data-en="20.7 km">20.7 km</li>
+            <li data-en="Point to point">ワンウェイ</li>
+          </ul>
+          <p class="desc" data-en="A one-way sprint from Fukuyama Station past Fukuyama Castle and Kusado Inari Shrine, over the Ashidagawa Ohashi cable-stayed bridge and down the Seto Inland Sea coast to the finish at Tomonoura's stone lantern.">
+            福山駅から福山城、草戸稲荷神社を抜け、芦田川大橋を渡って瀬戸内の海沿いを南へ。
+            鞆の浦の常夜燈でゴールする、周回しない一本道です。
+          </p>
+          <span class="go" data-en="Race →">走る →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="facts">
+      <div class="fact">
+        <h3 data-en="Nothing to install">インストール不要</h3>
+        <p data-en="It runs in the browser. Phones work too — controls appear on screen.">
+          ブラウザだけで動きます。スマホでも、画面に操作ボタンが出ます。
+        </p>
+      </div>
+      <div class="fact">
+        <h3 data-en="Online races for up to 8">最大8人のオンライン対戦</h3>
+        <p data-en="Press Online Play to join the lobby. Once two players are in, the countdown starts; empty grid slots are filled by AI.">
+          「対戦PLAY」でロビーへ。2人そろえばカウントダウンが始まり、空いた枠は AI が走ります。
+        </p>
+      </div>
+      <div class="fact">
+        <h3 data-en="The real city, as it is">実在の街、そのまま</h3>
+        <p data-en="Buildings along the course wear PLATEAU's photo textures, taken from aerial imagery.">
+          コース沿いの建物には、航空写真から起こした PLATEAU の実写テクスチャが貼られています。
+        </p>
+      </div>
+      <div class="fact">
+        <h3 data-en="Free">無料</h3>
+        <p data-en="No sign-up, no charge. Open the page and you are on the grid.">
+          登録も課金もありません。ページを開けば、もうスタートラインです。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="inner" data-en-html='3D city models: <a href="https://www.mlit.go.jp/plateau/" target="_blank" rel="noopener">MLIT Project PLATEAU</a><br />© City Kart'>
+      3D都市モデル: <a href="https://www.mlit.go.jp/plateau/" target="_blank" rel="noopener">国土交通省 PLATEAU</a><br />
+      © シティカート
+    </div>
+  </footer>
+
+  <script>
+    // 言語切替。localStorage の 'lang' を読み書きする。English のときは各ゲームへのリンクを
+    // 英語版（/en/）へ張り替えるので、そのまま英語のゲーム画面から始まる。
+    (function () {
+      var TITLE = {
+        ja: 'シティカート — 実在の街を走るカートレース',
+        en: 'City Kart — Race through real cities',
+      };
+      var DESC = {
+        ja: 'PLATEAU 3D都市モデルで再現した広島・松江・福山の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。',
+        en: 'Free browser kart racing through Hiroshima, Matsue and Fukuyama, rebuilt from PLATEAU 3D city models. No install, works on phones, online races for up to 8.',
+      };
+      // 日本語の原文はHTMLに書いてあるので、初回に控えておいて ja へ戻すときに使う。
+      var els = [].slice.call(document.querySelectorAll('[data-en], [data-en-html]'));
+      els.forEach(function (el) {
+        el.dataset.ja = el.textContent.trim();
+        el.dataset.jaHtml = el.innerHTML;
+      });
+      var links = [].slice.call(document.querySelectorAll('[data-href-en]'));
+      links.forEach(function (a) {
+        a.dataset.hrefJa = a.getAttribute('href');
+      });
+
+      function apply(lang) {
+        var en = lang === 'en';
+        document.documentElement.lang = lang;
+        document.title = TITLE[lang];
+        var meta = document.querySelector('meta[name="description"]');
+        if (meta) meta.setAttribute('content', DESC[lang]);
+        els.forEach(function (el) {
+          if (el.dataset.enHtml) el.innerHTML = en ? el.dataset.enHtml : el.dataset.jaHtml;
+          else el.textContent = en ? el.dataset.en : el.dataset.ja;
+        });
+        links.forEach(function (a) {
+          a.setAttribute('href', en ? a.dataset.hrefEn : a.dataset.hrefJa);
+        });
+        [].forEach.call(document.querySelectorAll('.lang-opt'), function (b) {
+          b.classList.toggle('selected', b.dataset.lang === lang);
+        });
+      }
+
+      var saved = null;
+      try {
+        saved = localStorage.getItem('lang');
+      } catch (e) {
+        // プライベートモード等で localStorage が使えないだけなので既定(ja)で続行する
+      }
+      apply(saved === 'en' ? 'en' : 'ja');
+
+      [].forEach.call(document.querySelectorAll('.lang-opt'), function (b) {
+        b.addEventListener('click', function () {
+          var lang = b.dataset.lang === 'en' ? 'en' : 'ja';
+          try {
+            localStorage.setItem('lang', lang);
+          } catch (e) {
+            /* 保存できなくても表示の切替だけは行う */
+          }
+          apply(lang);
+        });
+      });
+    })();
+
+    // ヒーロー動画。iOS Safari は autoplay 属性だけでは再生が始まらないことがあるので明示的に叩く。
+    (function () {
+      var v = document.querySelector('.hero-media video');
+      if (!v) return;
+
+      // iOS は muted 属性だけでなくプロパティも見る。音ありと判定されると自動再生が拒まれる。
+      v.muted = true;
+      v.defaultMuted = true;
+      // スマホには軽い方（854幅・2.4MB）を配る。本編(10MB)は携帯回線だと
+      // 再生できる状態になる前に待たされ、結果として「動かない動画」に見えてしまう。
+      var small = window.matchMedia('(max-width: 820px)').matches;
+      v.src = small ? 'videos/hero-mobile.mp4' : 'videos/hero.mp4';
+
+      var play = function () {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      };
+
+      play();
+      v.addEventListener('loadeddata', play);
+      v.addEventListener('canplay', play);
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') play();
+      });
+      // iPhoneの低電力モードなどでは、muted でも自動再生が止められる。この場合は
+      // 画面のどこかに触れたときだけ再生できるので、実際に再生が始まるまで待ち受け続ける。
+      document.addEventListener('touchstart', play, { passive: true });
+      document.addEventListener('click', play);
+      v.addEventListener('playing', function () {
+        document.removeEventListener('touchstart', play);
+        document.removeEventListener('click', play);
+      });
+    })();
+  </script>
+</body>
+</html>
