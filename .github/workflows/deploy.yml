@@ -27,10 +27,9 @@ jobs:
       - name: Install
         run: npm ci
       - name: Build
+        # 独自ドメイン https://citykart.jp/ 直下で配信するので base は既定の './' (相対) のまま。
+        # 配信先を https://<user>.github.io/city-kart/ に戻すときは BASE_PATH: /city-kart/ を渡す。
         run: npm run build
-        env:
-          # プロジェクトページは https://<user>.github.io/city-kart/ で配信される
-          BASE_PATH: /city-kart/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

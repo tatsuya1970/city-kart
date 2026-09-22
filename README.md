@@ -2,7 +2,7 @@
 
 国土交通省 **PLATEAU** の 3D 都市モデルで実在の街を走るブラウザカートレース 3 作の入口ページです。
 
-https://tatsuya1970.github.io/city-kart/
+https://citykart.jp/
 
 | ゲーム | コース | リポジトリ |
 | --- | --- | --- |
@@ -38,7 +38,16 @@ PORT=5180 node scripts/shot-hiroshima.mjs   # images/card-hiroshima.jpg
 
 ## デプロイ
 
-`main` に push すると GitHub Actions（`.github/workflows/deploy.yml`）が `BASE_PATH=/city-kart/` でビルドして GitHub Pages に出します。
+`main` に push すると GitHub Actions（`.github/workflows/deploy.yml`）がビルドして GitHub Pages に出します。
+
+独自ドメイン **citykart.jp** で配信しています。`public/CNAME` がその設定で、DNS 側はドメイン（ムームードメイン）に次を置いています。
+
+| サブドメイン | 種別 | 内容 |
+| --- | --- | --- |
+| （空欄） | A | `185.199.108.153` / `185.199.109.153` / `185.199.110.153` / `185.199.111.153` |
+| `www` | CNAME | `tatsuya1970.github.io.` |
+
+ページ内のパスはすべて相対なので base は `./` のままです。`https://<user>.github.io/city-kart/` に戻すときは `public/CNAME` を消し、ビルドに `BASE_PATH=/city-kart/` を渡します。
 
 ## ライセンス
 
