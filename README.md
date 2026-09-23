@@ -17,7 +17,7 @@ https://citykart.jp/
 
 - 日本語 / 英語の切替は右上。英語表記は各要素の `data-en` / `data-en-html` に持たせ、選んだ言語は localStorage の `lang` に残します。英語のときは各ゲームへのリンクも英語版（`/en/`）に張り替えます。
 - ヒーローの背景動画は、PC に `videos/hero.mp4`（1920 幅）、スマホ（820px 以下）に `videos/hero-mobile.mp4`（854 幅）を出し分けます。`<source>` を書くとスマホでも重い方の取得が始まるので、src はスクリプトで入れています。
-- ページ内のパスはすべて相対です。
+- ページ内のパスは根からの絶対（`/images/...`）です。`/en/` から見ても同じファイルを指すようにするためです。
 
 ## 素材を作り直す
 
@@ -47,7 +47,7 @@ PORT=5180 node scripts/shot-hiroshima.mjs   # images/card-hiroshima.jpg
 | （空欄） | A | `185.199.108.153` / `185.199.109.153` / `185.199.110.153` / `185.199.111.153` |
 | `www` | CNAME | `tatsuya1970.github.io.` |
 
-ページ内のパスはすべて相対なので base は `./` のままです。`https://<user>.github.io/city-kart/` に戻すときは `public/CNAME` を消し、ビルドに `BASE_PATH=/city-kart/` を渡します。
+ページ内のパスは根からの絶対（`/images/...`）です。英語ページを `/en/` に置いているので、相対にすると `/en/images/...` を見に行って 404 になります。`https://<user>.github.io/city-kart/` に戻すときは `public/CNAME` を消し、ビルドに `BASE_PATH=/city-kart/` を渡します。
 
 ## ライセンス
 
