@@ -1,0 +1,25 @@
+# City Kart / シティカート
+
+> 国土交通省 Project PLATEAU の3D都市モデルから起こした、実在の日本の街を走る無料のブラウザカートレース 3 作。インストール不要、スマホ対応、最大8人のオンライン対戦つき。任天堂株式会社とは関係のない個人制作の非公式ゲーム。
+> Three free browser kart racing games set in real Japanese cities, built from Japan's PLATEAU 3D city models (MLIT). No install, works on phones, online races for up to 8. An unofficial game made by one person; not connected with Nintendo.
+
+## コース / Courses
+
+- [広島グランプリ Hiroshima Kart](https://hiroshima.citykart.jp/): 広島市。1周 7.31 km を2周。広島駅 → 銀山町 → 八丁堀 → 紙屋町 → 原爆ドーム前 → 十日市 → 寺町 → エディオンピースウィング → 白島 → 二葉の里 → 広島駅。英語版 https://hiroshima.citykart.jp/en/
+- [福山グランプリ Fukuyama Kart](https://fukuyama.citykart.jp/): 福山市。20.7 km のワンウェイ（周回しない）。福山駅 → 福山城 → 草戸稲荷神社 → 芦田川大橋 → 県道22号の海沿い → 鞆の浦 常夜燈でゴール。英語版 https://fukuyama.citykart.jp/en/
+- [松江グランプリ Matsue Kart](https://matsue.citykart.jp/): 松江市。1周 9.6 km を2周。松江駅 → 島根県庁 → 松江城 → 塩見縄手 → 松江市役所 → 宍道湖大橋 → 宍道湖夕日スポット → 浜乃木 → 松江駅。英語版 https://matsue.citykart.jp/en/
+
+## 事実 / Facts
+
+- 料金: 無料。登録も課金もない / Price: free, no sign-up
+- 動作環境: WebGL2 が使えるブラウザ（Chrome、Safari、Edge、Firefox）。PC・スマホ・タブレット
+- 対戦: 最大8人。2人そろうと30秒のカウントダウンで発走し、空いた枠は AI が走る
+- データ: 国土交通省 Project PLATEAU の3D都市モデル（CityGML）。建物には航空写真由来の実写テクスチャ。走行線は実在の道路の上
+- 技術: three.js（WebGL2）。対戦は WebRTC（trystero）でブラウザどうしを直接つなぐ
+- 作者: tatsuya-takemura（個人制作）
+
+## 関連 / More
+
+- [シティカート トップ](https://citykart.jp/): 3作の入口。英語版 https://citykart.jp/en/
+- [Project PLATEAU](https://www.mlit.go.jp/plateau/): 3D都市モデルの出どころ（国土交通省）
+- [GitHub](https://github.com/tatsuya1970): ソースコード（hiroshima-kart / fukuyama-kart / matsue-kart / city-kart）

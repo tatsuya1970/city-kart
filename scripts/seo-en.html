@@ -1,0 +1,144 @@
+<!-- 英語ページ (/en/) の head。index.html の SEO:ja ブロックと差し替わる
+     (scripts/build-en.mjs)。日本語側を直したらこちらも直すこと。 -->
+<title>City Kart — Race through real Japanese cities</title>
+<meta name="description" content="Free browser kart racing through Hiroshima, Fukuyama and Matsue, rebuilt from Japan's PLATEAU 3D city models. Nothing to install, works on phones, online races for up to 8." />
+<link rel="canonical" href="https://citykart.jp/en/" />
+<link rel="alternate" hreflang="ja" href="https://citykart.jp/" />
+<link rel="alternate" hreflang="en" href="https://citykart.jp/en/" />
+<link rel="alternate" hreflang="x-default" href="https://citykart.jp/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="City Kart" />
+<meta property="og:title" content="City Kart — Race through real Japanese cities" />
+<meta property="og:description" content="Hiroshima, Fukuyama and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
+<meta property="og:url" content="https://citykart.jp/en/" />
+<meta property="og:image" content="https://citykart.jp/images/hero-poster.jpg" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="The Atomic Bomb Dome seen from above in Hiroshima's 3D city model, with the City Kart title" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="City Kart — Race through real Japanese cities" />
+<meta name="twitter:description" content="Hiroshima, Fukuyama and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
+<meta name="twitter:image" content="https://citykart.jp/images/hero-poster.jpg" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://citykart.jp/#website",
+      "name": "City Kart",
+      "alternateName": "シティカート",
+      "url": "https://citykart.jp/",
+      "inLanguage": ["en", "ja"],
+      "description": "Three free browser kart racing games set in real Japanese cities, built from the PLATEAU 3D city models.",
+      "publisher": { "@id": "https://citykart.jp/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://citykart.jp/#person",
+      "name": "tatsuya-takemura"
+    },
+    {
+      "@type": "ItemList",
+      "name": "City Kart courses",
+      "description": "Three courses — Hiroshima, Fukuyama and Matsue. All free to play in the browser.",
+      "numberOfItems": 3,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "VideoGame",
+            "name": "Hiroshima Kart",
+            "url": "https://hiroshima.citykart.jp/en/",
+            "description": "A 7.31 km lap from Hiroshima Station through Kamiyacho, the Atomic Bomb Dome and the EDION Peace Wing, raced twice.",
+            "genre": "Racing",
+            "gamePlatform": "Web browser",
+            "applicationCategory": "GameApplication",
+            "playMode": ["SinglePlayer", "MultiPlayer"],
+            "isPartOf": { "@id": "https://citykart.jp/#website" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+            "contentLocation": { "@type": "City", "name": "Hiroshima" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "VideoGame",
+            "name": "Fukuyama Kart",
+            "url": "https://fukuyama.citykart.jp/en/",
+            "description": "A 20.7 km point-to-point run from Fukuyama Station past Fukuyama Castle and the Ashidagawa Ohashi bridge to the stone lantern at Tomonoura.",
+            "genre": "Racing",
+            "gamePlatform": "Web browser",
+            "applicationCategory": "GameApplication",
+            "playMode": ["SinglePlayer", "MultiPlayer"],
+            "isPartOf": { "@id": "https://citykart.jp/#website" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+            "contentLocation": { "@type": "City", "name": "Fukuyama" }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "VideoGame",
+            "name": "Matsue Kart",
+            "url": "https://matsue.citykart.jp/en/",
+            "description": "A 9.6 km lap from Matsue Station around Matsue Castle, over the Lake Shinji Bridge to the lakeside sunset spot, raced twice.",
+            "genre": "Racing",
+            "gamePlatform": "Web browser",
+            "applicationCategory": "GameApplication",
+            "playMode": ["SinglePlayer", "MultiPlayer"],
+            "isPartOf": { "@id": "https://citykart.jp/#website" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+            "contentLocation": { "@type": "City", "name": "Matsue" }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is City Kart free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. There is no sign-up and no charge. Open the page and you are on the grid." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to install anything?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. It runs in the browser. Any recent browser with WebGL2 — Chrome, Safari, Edge or Firefox — will do." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on a phone?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. On phones and tablets a stick and buttons appear on screen, and the graphics quality adjusts to the device." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many people can play?",
+          "acceptedAnswer": { "@type": "Answer", "text": "One, or up to eight online. In Online Play a 30-second countdown starts once two players are in the lobby, and any empty slots on the grid are filled by AI karts." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which cities can I race in?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura) and Matsue (a 9.6 km lap, raced twice)." }
+        },
+        {
+          "@type": "Question",
+          "name": "How are the cities made?",
+          "acceptedAnswer": { "@type": "Answer", "text": "From the 3D city models (CityGML) published by Japan's Project PLATEAU. Buildings, roads and terrain come from that data, buildings along the course wear PLATEAU's aerial photo textures, and the racing line follows real streets." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this related to Nintendo's Mario Kart?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. It is an unofficial game made by one person from PLATEAU open data, and has no connection with Nintendo." }
+        }
+      ]
+    }
+  ]
+}
+</script>

@@ -3,19 +3,159 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- ==== SEO:ja ====
+       ここから /SEO:ja までを、英語ページ (/en/) では scripts/seo-en.html の中身に
+       まるごと差し替える (scripts/build-en.mjs)。URL を変えるときはこの 2 か所と
+       public/sitemap.xml・public/robots.txt・public/llms.txt を直すこと。 -->
   <title>シティカート — 実在の街を走るカートレース</title>
   <meta name="description" content="PLATEAU 3D都市モデルで再現した広島・福山・松江の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。" />
-  <!-- 英語表記は各要素の data-en / data-en-html に持たせ、末尾のスクリプトで差し替える。
-       各ゲームへのリンクは data-href-en に英語版の URL を持たせ、言語に合わせて張り替える。 -->
-  <meta name="theme-color" content="#0b1a2a" />
+  <link rel="canonical" href="https://citykart.jp/" />
+  <link rel="alternate" hreflang="ja" href="https://citykart.jp/" />
+  <link rel="alternate" hreflang="en" href="https://citykart.jp/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://citykart.jp/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="City Kart" />
   <meta property="og:title" content="シティカート — 実在の街を走るカートレース" />
   <meta property="og:description" content="広島・福山・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
   <meta property="og:url" content="https://citykart.jp/" />
   <meta property="og:image" content="https://citykart.jp/images/hero-poster.jpg" />
+  <meta property="og:image:width" content="1920" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="og:image:alt" content="原爆ドームの上空から見た広島の3D都市モデルと「シティカート」のタイトル" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://citykart.jp/" />
+  <meta name="twitter:title" content="シティカート — 実在の街を走るカートレース" />
+  <meta name="twitter:description" content="広島・福山・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
+  <meta name="twitter:image" content="https://citykart.jp/images/hero-poster.jpg" />
+  <!-- 構造化データ。3作をまとめる入口サイト (WebSite) と、その一覧 (ItemList)、
+       よくある質問 (FAQPage) の 3 つ。FAQPage の内容は本文の #faq と同じにすること
+       (画面に無い答えを構造化データにだけ書くのは Google の指針に反する)。 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://citykart.jp/#website",
+        "name": "シティカート",
+        "alternateName": "City Kart",
+        "url": "https://citykart.jp/",
+        "inLanguage": ["ja", "en"],
+        "description": "国土交通省 PLATEAU の3D都市モデルから起こした実在の街を走る、無料のブラウザカートレース 3 作の入口。",
+        "publisher": { "@id": "https://citykart.jp/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://citykart.jp/#person",
+        "name": "tatsuya-takemura"
+      },
+      {
+        "@type": "ItemList",
+        "name": "シティカートのコース",
+        "description": "広島・福山・松江の3コース。いずれも無料でブラウザから走れる。",
+        "numberOfItems": 3,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "VideoGame",
+              "name": "広島グランプリ Hiroshima Kart",
+              "url": "https://hiroshima.citykart.jp/",
+              "description": "広島駅から紙屋町・原爆ドーム前・エディオンピースウィングを回る1周7.31kmのコースを2周する。",
+              "genre": "Racing",
+              "gamePlatform": "Web browser",
+              "applicationCategory": "GameApplication",
+              "playMode": ["SinglePlayer", "MultiPlayer"],
+              "isPartOf": { "@id": "https://citykart.jp/#website" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+              "contentLocation": { "@type": "City", "name": "広島市" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "VideoGame",
+              "name": "福山グランプリ Fukuyama Kart",
+              "url": "https://fukuyama.citykart.jp/",
+              "description": "福山駅から福山城・芦田川大橋を抜けて鞆の浦の常夜燈まで、周回しない20.7kmのワンウェイ。",
+              "genre": "Racing",
+              "gamePlatform": "Web browser",
+              "applicationCategory": "GameApplication",
+              "playMode": ["SinglePlayer", "MultiPlayer"],
+              "isPartOf": { "@id": "https://citykart.jp/#website" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+              "contentLocation": { "@type": "City", "name": "福山市" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "VideoGame",
+              "name": "松江グランプリ Matsue Kart",
+              "url": "https://matsue.citykart.jp/",
+              "description": "松江駅から松江城・宍道湖大橋・宍道湖夕日スポットを回る1周9.6kmのコースを2周する。",
+              "genre": "Racing",
+              "gamePlatform": "Web browser",
+              "applicationCategory": "GameApplication",
+              "playMode": ["SinglePlayer", "MultiPlayer"],
+              "isPartOf": { "@id": "https://citykart.jp/#website" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+              "contentLocation": { "@type": "City", "name": "松江市" }
+            }
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "シティカートは無料ですか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "無料です。登録も課金もありません。ページを開けばすぐ走れます。" }
+          },
+          {
+            "@type": "Question",
+            "name": "インストールは必要ですか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "不要です。ブラウザだけで動きます。WebGL2 が使える最近のブラウザ (Chrome、Safari、Edge、Firefox) なら開くだけで遊べます。" }
+          },
+          {
+            "@type": "Question",
+            "name": "スマホでも遊べますか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "遊べます。スマホやタブレットでは画面にスティックとボタンが出ます。画質は端末に合わせて自動で調整されます。" }
+          },
+          {
+            "@type": "Question",
+            "name": "何人で遊べますか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "1人でも、オンラインで最大8人でも遊べます。「対戦PLAY」でロビーに入ると2人そろった時点で30秒のカウントダウンが始まり、空いた枠は AI のカートが走ります。" }
+          },
+          {
+            "@type": "Question",
+            "name": "どの街を走れますか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "広島市 (1周7.31kmを2周)、福山市 (鞆の浦まで20.7kmのワンウェイ)、松江市 (1周9.6kmを2周) の3コースです。" }
+          },
+          {
+            "@type": "Question",
+            "name": "街はどうやって作られていますか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "国土交通省 Project PLATEAU が公開している3D都市モデル (CityGML) から、建物・道路・地形を起こしています。コース沿いの建物には航空写真から作られた PLATEAU の実写テクスチャが貼られ、走行線は実在の道路の上を通ります。" }
+          },
+          {
+            "@type": "Question",
+            "name": "任天堂のマリオカートとの関係はありますか？",
+            "acceptedAnswer": { "@type": "Answer", "text": "ありません。個人が PLATEAU のオープンデータで作った非公式のゲームで、任天堂株式会社とは関係がありません。" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <!-- ==== /SEO:ja ==== -->
+  <!-- 英語表記は各要素の data-en / data-en-html に持たせ、末尾のスクリプトで差し替える。
+       各ゲームへのリンクは data-href-en に英語版の URL を持たせ、言語に合わせて張り替える。 -->
+  <meta name="theme-color" content="#0b1a2a" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1a2a'/%3E%3Cpath d='M12 12h10v10H12zM32 12h10v10H32zM22 22h10v10H22zM42 22h10v10H42zM12 32h10v10H12zM32 32h10v10H32zM22 42h10v10H22zM42 42h10v10H42z' fill='%23ffd83d'/%3E%3C/svg%3E" />
   <style>
     * { box-sizing: border-box; }
@@ -211,6 +351,29 @@
     .course .go { font-size: 14.5px; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, 0.35); padding-bottom: 2px; }
     .course:hover .go { border-bottom-color: var(--accent); color: var(--accent); }
 
+    /* ---- 紹介文・よくある質問（言語ごとのブロック） ----
+       開発サーバーでは日英とも HTML に入っているので、<html lang> を見て出し分ける。
+       配信するページでは scripts/build-en.mjs が要らない方を取り除く。 */
+    .lang-en { display: none; }
+    html[lang="en"] .lang-ja { display: none; }
+    html[lang="en"] .lang-en { display: block; }
+    .prose { max-width: 42em; }
+    .prose h3 {
+      margin: 28px 0 6px;
+      font-size: 15.5px;
+      font-weight: 700;
+    }
+    .prose h3:first-child { margin-top: 0; }
+    .prose p { margin: 0; color: #c6ced6; font-size: 14.5px; }
+    .faq { max-width: 46em; }
+    .faq dt {
+      margin: 24px 0 6px;
+      font-size: 15.5px;
+      font-weight: 700;
+    }
+    .faq > dl > dt:first-child { margin-top: 0; }
+    .faq dd { margin: 0; color: #c6ced6; font-size: 14.5px; }
+
     /* ---- できること ---- */
     .facts {
       display: grid;
@@ -367,6 +530,101 @@
     </div>
   </section>
 
+  <section class="section" id="about">
+    <h2 data-en="About City Kart">シティカートとは</h2>
+    <!-- ==== ABOUT:ja ==== -->
+    <div class="prose lang-ja" lang="ja">
+      <h3>実在の街を走るブラウザカートレース</h3>
+      <p>
+        シティカートは、国土交通省の Project PLATEAU（プラトー）が公開している3D都市モデルから
+        建物・道路・地形を起こして作った、無料のカートレースゲームです。広島・福山・松江の3つの街があり、
+        どれもブラウザで開くだけで走れます。インストールも登録も課金もありません。
+      </p>
+      <h3>コースは実在の道路の上</h3>
+      <p>
+        走行線は PLATEAU の道路データの上を通っていて、道幅も区間ごとに実物に合わせて変わります。
+        コース沿いの建物には航空写真から作られた PLATEAU の実写テクスチャが貼られているので、
+        原爆ドーム、福山城、松江城、鞆の浦の常夜燈といった名所はそのままの姿で建っています。
+      </p>
+      <h3>1人でも、8人でも</h3>
+      <p>
+        「1人PLAY」では AI のカートと走ります。「対戦PLAY」はオンライン対戦で、最大8人が同じコースに並びます。
+        2人そろった時点で30秒のカウントダウンが始まり、空いた枠は AI が走ります。
+        スマホやタブレットでは画面にスティックとボタンが出ます。
+      </p>
+    </div>
+    <!-- ==== /ABOUT:ja ==== -->
+    <!-- ==== ABOUT:en ==== -->
+    <div class="prose lang-en" lang="en">
+      <h3>Browser kart racing through real cities</h3>
+      <p>
+        City Kart is a free kart racing game built from the 3D city models published by Project PLATEAU,
+        the open data programme of Japan's Ministry of Land, Infrastructure, Transport and Tourism.
+        Buildings, roads and terrain all come from that data. There are three cities — Hiroshima, Fukuyama
+        and Matsue — and each one runs in the browser with nothing to install and nothing to pay.
+      </p>
+      <h3>The courses follow real streets</h3>
+      <p>
+        The racing line runs on PLATEAU's road surfaces, and the width of the track changes section by
+        section to match the real road. Buildings along the course wear PLATEAU's photo textures, taken from
+        aerial imagery, so landmarks such as the Atomic Bomb Dome, Fukuyama Castle, Matsue Castle and the
+        stone lantern at Tomonoura stand exactly where they do in the city.
+      </p>
+      <h3>Alone, or with up to eight</h3>
+      <p>
+        Single Play races against AI karts. Online Play puts up to eight people on the same course: once two
+        players are in the lobby a 30-second countdown starts, and any empty slots on the grid are filled by
+        AI. On phones and tablets a stick and buttons appear on screen.
+      </p>
+    </div>
+    <!-- ==== /ABOUT:en ==== -->
+  </section>
+
+  <section class="section" id="faq">
+    <h2 data-en="Frequently asked questions">よくある質問</h2>
+    <!-- ==== FAQ:ja ====
+         ここの問答は head の FAQPage 構造化データと同じ内容にしておくこと。 -->
+    <div class="faq lang-ja" lang="ja">
+      <dl>
+        <dt>シティカートは無料ですか？</dt>
+        <dd>無料です。登録も課金もありません。ページを開けばすぐ走れます。</dd>
+        <dt>インストールは必要ですか？</dt>
+        <dd>不要です。ブラウザだけで動きます。WebGL2 が使える最近のブラウザ（Chrome、Safari、Edge、Firefox）なら開くだけで遊べます。</dd>
+        <dt>スマホでも遊べますか？</dt>
+        <dd>遊べます。スマホやタブレットでは画面にスティックとボタンが出ます。画質は端末に合わせて自動で調整されます。</dd>
+        <dt>何人で遊べますか？</dt>
+        <dd>1人でも、オンラインで最大8人でも遊べます。「対戦PLAY」でロビーに入ると2人そろった時点で30秒のカウントダウンが始まり、空いた枠は AI のカートが走ります。</dd>
+        <dt>どの街を走れますか？</dt>
+        <dd>広島市（1周7.31kmを2周）、福山市（鞆の浦まで20.7kmのワンウェイ）、松江市（1周9.6kmを2周）の3コースです。</dd>
+        <dt>街はどうやって作られていますか？</dt>
+        <dd>国土交通省 Project PLATEAU が公開している3D都市モデル（CityGML）から、建物・道路・地形を起こしています。コース沿いの建物には航空写真から作られた PLATEAU の実写テクスチャが貼られ、走行線は実在の道路の上を通ります。</dd>
+        <dt>任天堂のマリオカートとの関係はありますか？</dt>
+        <dd>ありません。個人が PLATEAU のオープンデータで作った非公式のゲームで、任天堂株式会社とは関係がありません。</dd>
+      </dl>
+    </div>
+    <!-- ==== /FAQ:ja ==== -->
+    <!-- ==== FAQ:en ==== -->
+    <div class="faq lang-en" lang="en">
+      <dl>
+        <dt>Is City Kart free?</dt>
+        <dd>Yes. There is no sign-up and no charge. Open the page and you are on the grid.</dd>
+        <dt>Do I need to install anything?</dt>
+        <dd>No. It runs in the browser. Any recent browser with WebGL2 — Chrome, Safari, Edge or Firefox — will do.</dd>
+        <dt>Does it work on a phone?</dt>
+        <dd>Yes. On phones and tablets a stick and buttons appear on screen, and the graphics quality adjusts to the device.</dd>
+        <dt>How many people can play?</dt>
+        <dd>One, or up to eight online. In Online Play a 30-second countdown starts once two players are in the lobby, and any empty slots on the grid are filled by AI karts.</dd>
+        <dt>Which cities can I race in?</dt>
+        <dd>Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura) and Matsue (a 9.6 km lap, raced twice).</dd>
+        <dt>How are the cities made?</dt>
+        <dd>From the 3D city models (CityGML) published by Japan's Project PLATEAU. Buildings, roads and terrain come from that data, buildings along the course wear PLATEAU's aerial photo textures, and the racing line follows real streets.</dd>
+        <dt>Is this related to Nintendo's Mario Kart?</dt>
+        <dd>No. It is an unofficial game made by one person from PLATEAU open data, and has no connection with Nintendo.</dd>
+      </dl>
+    </div>
+    <!-- ==== /FAQ:en ==== -->
+  </section>
+
   <footer>
     <div class="inner" data-en-html='3D city models: <a href="https://www.mlit.go.jp/plateau/" target="_blank" rel="noopener">MLIT Project PLATEAU</a><br />© City Kart'>
       3D都市モデル: <a href="https://www.mlit.go.jp/plateau/" target="_blank" rel="noopener">国土交通省 PLATEAU</a><br />
@@ -415,23 +673,47 @@
         });
       }
 
+      // 言語は URL で分けてある（ゲーム側と同じ）。日本語は根 (/)、英語は /en/。
+      // /en/ は scripts/build-en.mjs が書き出す実体のあるページなので、クローラにも
+      // 英語として読まれる。開発サーバーには /en/ が無いので ?lang=en で下見する。
+      var onEnPath = /\/en\/?$/.test(location.pathname);
+      var qsLang = new URLSearchParams(location.search).get('lang');
       var saved = null;
       try {
         saved = localStorage.getItem('lang');
       } catch (e) {
         // プライベートモード等で localStorage が使えないだけなので既定(ja)で続行する
       }
-      apply(saved === 'en' ? 'en' : 'ja');
+      var lang = onEnPath || qsLang === 'en' ? 'en' : qsLang === 'ja' ? 'ja' : saved === 'en' ? 'en' : 'ja';
+      // /en/ の中身はすでに英語なので触らない。日本語ページを英語で見るときだけ差し替える。
+      if (onEnPath) {
+        document.documentElement.lang = 'en';
+        [].forEach.call(document.querySelectorAll('.lang-opt'), function (b) {
+          b.classList.toggle('selected', b.dataset.lang === 'en');
+        });
+      } else {
+        apply(lang);
+      }
 
       [].forEach.call(document.querySelectorAll('.lang-opt'), function (b) {
         b.addEventListener('click', function () {
-          var lang = b.dataset.lang === 'en' ? 'en' : 'ja';
+          var to = b.dataset.lang === 'en' ? 'en' : 'ja';
           try {
-            localStorage.setItem('lang', lang);
+            localStorage.setItem('lang', to);
           } catch (e) {
-            /* 保存できなくても表示の切替だけは行う */
+            /* 保存できなくても切替は行う */
           }
-          apply(lang);
+          if (to === (onEnPath ? 'en' : lang)) return;
+          // 開発サーバー (/en/ が無い) では ?lang= で、配信先では URL を移る
+          var dev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+          if (dev) {
+            if (onEnPath) return;
+            var url = new URL(location.href);
+            url.searchParams.set('lang', to);
+            location.assign(url.toString());
+            return;
+          }
+          location.assign(to === 'en' ? '/en/' : '/');
         });
       });
     })();
