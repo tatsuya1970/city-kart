@@ -6,9 +6,9 @@ https://citykart.jp/
 
 | ゲーム | コース | リポジトリ |
 | --- | --- | --- |
-| [広島グランプリ](https://tatsuya1970.github.io/hiroshima-kart/) | 1周 7.31 km × 2周 | [hiroshima-kart](https://github.com/tatsuya1970/hiroshima-kart) |
-| [松江グランプリ](https://tatsuya1970.github.io/matsue-kart/) | 1周 9.6 km × 2周 | [matsue-kart](https://github.com/tatsuya1970/matsue-kart) |
-| [福山グランプリ](https://tatsuya1970.github.io/fukuyama-kart/) | 20.7 km ワンウェイ | [fukuyama-kart](https://github.com/tatsuya1970/fukuyama-kart) |
+| [広島グランプリ](https://hiroshima.citykart.jp/) | 1周 7.31 km × 2周 | [hiroshima-kart](https://github.com/tatsuya1970/hiroshima-kart) |
+| [福山グランプリ](https://fukuyama.citykart.jp/) | 20.7 km ワンウェイ | [fukuyama-kart](https://github.com/tatsuya1970/fukuyama-kart) |
+| [松江グランプリ](https://matsue.citykart.jp/) | 1周 9.6 km × 2周 | [matsue-kart](https://github.com/tatsuya1970/matsue-kart) |
 
 ## 構成
 
@@ -34,7 +34,7 @@ npm run media                      # public/videos/hero*.mp4, images/hero-poster
 PORT=5180 node scripts/shot-hiroshima.mjs   # images/card-hiroshima.jpg
 ```
 
-動画の並びは `scripts/build-media.mjs` の `CLIPS` です。広島を主役に、松江・福山を 1 本ずつ挟んでいます。
+動画の並びは `scripts/build-media.mjs` の `CLIPS` です。広島を主役に、福山・松江を 1 本ずつ挟んでいます。
 
 ## デプロイ
 
