@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #EEF1F4;
+      }
+      /* 重なり順 (scripts/fix-layering.mjs) */
+      /* 映像はフレームの下。文字・暗幕はフレーム側 (.scene) に乗っている */
+      .scene { z-index: 1; }
+      video.clip { z-index: 0; }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-at0g" id="root" data-composition-id="main" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+      <div data-hf-id="hf-m28v" id="el-01-hook" class="scene" data-composition-id="01-hook" data-composition-src="compositions/frames/01-hook.html" data-start="0" data-duration="3.4" data-track-index="0"></div>
+
+      <div data-hf-id="hf-dof5" id="el-02-hiroshima" class="scene" data-composition-id="02-hiroshima" data-composition-src="compositions/frames/02-hiroshima.html" data-start="3" data-duration="4.5" data-track-index="1"></div>
+
+      <div data-hf-id="hf-izzk" id="el-03-fukuyama" class="scene" data-composition-id="03-fukuyama" data-composition-src="compositions/frames/03-fukuyama.html" data-start="7" data-duration="4.5" data-track-index="0"></div>
+
+      <div data-hf-id="hf-k2em" id="el-04-matsue" class="scene" data-composition-id="04-matsue" data-composition-src="compositions/frames/04-matsue.html" data-start="11" data-duration="4.4" data-track-index="1"></div>
+
+      <div data-hf-id="hf-wfs4" id="el-05-cta" class="scene" data-composition-id="05-cta" data-composition-src="compositions/frames/05-cta.html" data-start="15" data-duration="5" data-track-index="0"></div>
+
+      <video data-hf-id="hf-3e11" id="f01-video-air" src="assets/hiro-dome-air.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="0" data-duration="3" data-track-index="1000"></video>
+
+      <video data-hf-id="hf-pqb2" id="f02-video-gate" src="assets/hiro-dome-gate.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="3" data-duration="2.4" data-track-index="2001"></video>
+
+      <video data-hf-id="hf-yjg6" id="f02-video-city" src="assets/hiro-city.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="5.4" data-duration="1.6" data-track-index="2002"></video>
+
+      <video data-hf-id="hf-7upw" id="f03-video-bridge" src="assets/fuku-bridge.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="7" data-duration="2.25" data-track-index="3001"></video>
+
+      <video data-hf-id="hf-gh1m" id="f03-video-goal" src="assets/fuku-goal.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="9.25" data-duration="1.75" data-track-index="3002"></video>
+
+      <video data-hf-id="hf-uqx3" id="frame-04-matsue-bridge" src="assets/matsue-bridge.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="11" data-duration="2.9" data-track-index="4001"></video>
+
+      <video data-hf-id="hf-ysmq" id="f04-video-sunset" src="assets/matsue-sunset.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="13.9" data-duration="1.1" data-track-index="4002"></video>
+
+      <video data-hf-id="hf-ho0b" id="f05-video-air" src="assets/hiro-dome-air.mp4" muted playsinline class="clip" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;object-fit:cover" data-start="15" data-duration="5" data-track-index="5000"></video>
+      <!-- BGM（ユーザー提供）。頭 0.4s で立ち上げ、終わり 1.2s で落とす。
+           ナレーションが無いので carve は掛けていない。 -->
+      <audio data-hf-id="hf-fcb3" id="bgm" class="clip" src="assets/bgm.mp3" data-start="0" data-duration="19.88" data-track-index="9" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.4,&quot;v&quot;:1},{&quot;t&quot;:18.68,&quot;v&quot;:1},{&quot;t&quot;:19.88,&quot;v&quot;:0}]}]}"></audio>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-hook", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 3);
+        tl.fromTo("#el-02-hiroshima", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 3);
+        tl.to("#el-02-hiroshima", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 7);
+        tl.fromTo("#el-03-fukuyama", { x: 1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 7);
+        tl.to("#el-03-fukuyama", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 11);
+        tl.fromTo("#el-04-matsue", { x: 1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 11);
+        tl.to("#el-04-matsue", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 15);
+        tl.fromTo("#el-05-cta", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 15);
+        tl.to({}, { duration: 20 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

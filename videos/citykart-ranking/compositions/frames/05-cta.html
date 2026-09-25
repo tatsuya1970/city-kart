@@ -1,0 +1,262 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+    /* ------------------------------------------------------------------
+       05-cta — 3つの街それぞれにランキング / citykart.jp
+       1920x1080 / 3.0s / 最終カット（URL は最後のコマまで残す）
+       register: dark  ground #0B1A2A · text #EEF1F4 · accent #FFD83D（1色のみ）
+       keep-out: すべての要素は y <= 896 (0.83 x 1080) より上
+       書体: 総称 sans-serif のみ（Noto Sans JP は orchestrator が注入）
+       ------------------------------------------------------------------ */
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Noto Sans JP", sans-serif;
+      color: #eef1f4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .f05-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* --- 地（全面 clip / #root には塗らない） --- */
+    #f05-ground {
+      background: #0b1a2a;
+    }
+
+    /* --- citykart.jp の実画面（奥で立ち上がる、暗く落とす） --- */
+    #f05-stage {
+      overflow: hidden;
+    }
+
+    #f05-page {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      display: block;
+    }
+
+    /* --- 可読性のための暗幕（左から右へ薄くなる） --- */
+    #f05-veil {
+      pointer-events: none;
+      background: linear-gradient(
+        to right,
+        rgba(11, 26, 42, 0.94) 0%,
+        rgba(11, 26, 42, 0.86) 45%,
+        rgba(11, 26, 42, 0.62) 75%,
+        rgba(11, 26, 42, 0.5) 100%
+      );
+    }
+
+    /* --- コピー --- */
+    #f05-cities {
+      position: absolute;
+      left: 106px;
+      top: 176px;
+      display: flex;
+      align-items: baseline;
+      margin: 0;
+      font-size: 5.2cqw;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #eef1f4;
+      white-space: nowrap;
+    }
+
+    .f05-city {
+      display: inline-block;
+    }
+
+    .f05-dot {
+      display: inline-block;
+      color: #9aa8b6;
+      font-weight: 700;
+    }
+
+    #f05-rank {
+      position: absolute;
+      left: 110px;
+      top: 300px;
+      margin: 0;
+      font-size: 3.2cqw;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #eef1f4;
+      white-space: nowrap;
+    }
+
+    #f05-rule {
+      position: absolute;
+      left: 112px;
+      top: 440px;
+      width: 36px;
+      height: 2px;
+      background: #ffd83d;
+    }
+
+    #f05-url {
+      position: absolute;
+      left: 96px;
+      top: 478px;
+      margin: 0;
+      font-size: 12cqw;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: #ffd83d;
+      white-space: nowrap;
+    }
+
+    #f05-note {
+      position: absolute;
+      left: 112px;
+      top: 758px;
+      margin: 0;
+      font-size: 1.7cqw;
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: 0.02em;
+      color: #eef1f4;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div data-hf-id="hf-d0se" id="root" data-composition-id="05-cta" data-start="0" data-duration="3" data-width="1920" data-height="1080">
+    <!-- 全面の地 -->
+    <div data-hf-id="hf-guv4" id="f05-ground" class="clip f05-layer" data-start="0" data-duration="3" data-track-index="1"></div>
+
+    <!-- citykart.jp の実画面（奥） -->
+    <div data-hf-id="hf-j3uo" id="f05-stage" class="clip f05-layer" data-start="0" data-duration="3" data-track-index="2">
+      <img data-hf-id="hf-lvt2" id="f05-page" src="assets/lp-top.png" alt="">
+    </div>
+
+    <!-- 暗幕 -->
+    <div data-hf-id="hf-qkhv" id="f05-veil" class="clip f05-layer" data-start="0" data-duration="3" data-track-index="3"></div>
+
+    <!-- コピー -->
+    <div data-hf-id="hf-p4h7" id="f05-copy" class="clip f05-layer" data-start="0" data-duration="3" data-track-index="4">
+      <p data-hf-id="hf-xy7d" id="f05-cities">
+        <span data-hf-id="hf-vo38" class="f05-city" id="f05-city-1">広島</span><span data-hf-id="hf-v2ls" class="f05-dot" id="f05-dot-1">・</span><span data-hf-id="hf-3hli" class="f05-city" id="f05-city-2">福山</span><span data-hf-id="hf-g0rl" class="f05-dot" id="f05-dot-2">・</span><span data-hf-id="hf-sfis" class="f05-city" id="f05-city-3">松江</span>
+      </p>
+      <p data-hf-id="hf-decy" id="f05-rank">それぞれにランキング</p>
+      <div data-hf-id="hf-572v" id="f05-rule"></div>
+      <p data-hf-id="hf-pauq" id="f05-url">citykart.jp</p>
+      <p data-hf-id="hf-ghvc" id="f05-note">無料・インストール不要</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // 右上を起点に大きく拡大し、LP 自身の見出し（左下）を画面の外へ出す。
+      // 残るのは走行画と看板ゲートで、手前の文字とぶつからない。
+      gsap.set("#f05-page", { transformOrigin: "100% 0%" });
+      gsap.set("#f05-url", { transformOrigin: "0% 60%" });
+      gsap.set("#f05-rule", { transformOrigin: "0% 50%" });
+
+      /* ---------------- Scene 1 (0.0–1.0s) ----------------
+         実画面が奥で立ち上がる（押し戻された位置へ沈みながら浮かぶ）。
+         3つの街が左から順に着地し、続けて「それぞれにランキング」。 */
+      tl.fromTo(
+        "#f05-page",
+        { opacity: 0, scale: 1.72, y: 40 },
+        { opacity: 0.85, scale: 1.64, y: 0, duration: 0.9, ease: "power3.out" },
+        0,
+      );
+
+      var CITY = ["#f05-city-1", "#f05-city-2", "#f05-city-3"];
+      CITY.forEach(function (sel, i) {
+        tl.fromTo(
+          sel,
+          { opacity: 0, x: -36, y: 18 },
+          { opacity: 1, x: 0, y: 0, duration: 0.34, ease: "power3.out" },
+          0.1 + i * 0.16,
+        );
+      });
+      ["#f05-dot-1", "#f05-dot-2"].forEach(function (sel, i) {
+        tl.fromTo(
+          sel,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2, ease: "power1.out" },
+          0.2 + i * 0.16,
+        );
+      });
+
+      tl.fromTo(
+        "#f05-rank",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        0.58,
+      );
+
+      /* ---------------- Scene 2 (1.0–2.0s) ----------------
+         citykart.jp が黄色の display 級で着地する（動画で一番大きい文字）。
+         背面の実画面は一段奥へ沈み、URL だけが前に残る。 */
+      tl.fromTo(
+        "#f05-rule",
+        { opacity: 0, scaleX: 0 },
+        { opacity: 1, scaleX: 1, duration: 0.3, ease: "power2.out" },
+        0.95,
+      );
+
+      tl.fromTo(
+        "#f05-url",
+        { opacity: 0, scale: 1.16, y: 30 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" },
+        1.0,
+      );
+
+      tl.to(
+        "#f05-page",
+        { opacity: 0.6, scale: 1.6, duration: 0.7, ease: "power2.inOut" },
+        1.0,
+      );
+
+      tl.fromTo(
+        "#f05-note",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        1.5,
+      );
+
+      /* ---------------- Scene 3 (2.0–3.0s) ----------------
+         何も動かさない（held read）。タイムライン長を 3.0s に固定する。 */
+      tl.to("#f05-url", { opacity: 1, duration: 0.01 }, 2.99);
+
+      window.__timelines["05-cta"] = tl;
+    })();
+  </script>
+</template>

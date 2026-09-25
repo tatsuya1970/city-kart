@@ -1,2 +1,17 @@
 node_modules
 dist
+
+# プロモ動画 (videos/)。素材と書き出しは重いので入れない。
+# 作り直しは videos/<名前>/ の README と scripts/ を参照（福山・松江版と同じ方針）。
+videos/*/assets
+videos/*/renders
+videos/*/snapshots
+videos/*/capture
+videos/*/.hyperframes
+videos/*/.media
+videos/*/.frames-backup
+videos/*/node_modules
+# 生成キャッシュと、scripts/capture-game.mjs で撮り直せるゲーム画面
+videos/*/.thumbnails
+videos/*/.waveform-cache
+videos/*/game-shots

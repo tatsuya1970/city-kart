@@ -1,0 +1,208 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+    /* 02-hiroshima — 広島グランプリ。1080×1920 (9:16)。
+       16:9 版 (citykart-promo/compositions/frames/02-hiroshima.html) の移植。
+       拍・動き・文言・階層はそのまま。変えたのは配置だけ。
+       Dark register only (frame.md): ground #0B1A2A, text #EEF1F4, single accent #FFD83D.
+       Noto Sans JP は assets/fonts/ に実ファイルがあるので @font-face で読む
+       (総称フォントだけの指定は不可 — レンダー機には CJK が入っていない)。 */
+
+    /* フレームの根は #root で当てる（クラスは不可）。背景はここに置かず、下の
+       .clip 暗幕が全面の地を持つ。z-index は assemble-index が root 直下へ
+       移した映像の上に文字を乗せるため。 */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      z-index: 2;
+      font-family: "Noto Sans JP", sans-serif;
+      color: #eef1f4;
+    }
+
+    /* 暗幕 — 縦位置では上三分の二を画のまま残したいので、16:9 版より速く抜く。
+       文字帯 (下から 18.5%〜34%) だけを濃く閉じる。 */
+    .f02-hiroshima-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(11, 26, 42, 0.94) 14%,
+        rgba(11, 26, 42, 0.66) 30%,
+        rgba(11, 26, 42, 0.3) 50%,
+        rgba(11, 26, 42, 0) 76%
+      );
+    }
+
+    /* Scene 3 seam — the one channel this frame owns across the footage cut. */
+    .f02-hiroshima-curtain {
+      position: absolute;
+      inset: 0;
+      background: #0b1a2a;
+      opacity: 0;
+    }
+
+    /* 文字 — 左・下三分の一。下余白 18.5cqh (≈355px) は 16:9 版と同じ比率なので、
+       ブロック下端は ≈1565px。83% のキープアウト (1594px) の内側に収まる。
+       ブロック上端は ≈1278px ＝ 上三分の二 (1280px) を侵さない。 */
+    .f02-hiroshima-pad {
+      position: absolute;
+      inset: 0;
+      padding: 5.5cqw 5.5cqw 18.5cqh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+    /* 9.8cqw ≈ 106px。「広島グランプリ」7字 ×0.98em ≈ 726px で、
+       左右 5.5cqw を引いた 961px の版面に一行で収まる。 */
+    .f02-hiroshima-city {
+      margin: 0;
+      font-size: 9.8cqw;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #eef1f4;
+      will-change: transform, filter, opacity;
+    }
+    .f02-hiroshima-stat {
+      margin-top: 2cqw;
+      font-size: 7.5cqw;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #ffd83d;
+      will-change: transform, opacity;
+    }
+    .f02-hiroshima-latin {
+      margin-top: 1.8cqw;
+      font-family: "Noto Sans JP", monospace;
+      font-size: 3.4cqw;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #9aa8b6;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <div id="root" data-composition-id="02-hiroshima" data-width="1080" data-height="1920" data-duration="4.5">
+    <!-- Scene 1-2 (0.0-2.4s): 「原爆ドーム前」の看板ゲート通過。看板は映像の中に実在する
+         ものをそのまま見せる — それが show-don't-tell の肝なので何も描き足さない。 -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <!-- Scene 3-4 (2.4-4.0s): 相生通りの市街地疾走。進行方向も速度も揃っているので、
+         切り替わりは cut-the-curve の継ぎ目として見えない。 -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <div id="f02-hiroshima-veil" class="clip f02-hiroshima-veil" data-start="0" data-duration="4.5" data-track-index="0"></div>
+
+    <div id="f02-hiroshima-curtain" class="clip f02-hiroshima-curtain" data-start="0" data-duration="4.5" data-track-index="3"></div>
+
+    <div class="clip f02-hiroshima-pad" data-start="0" data-duration="4.5" data-track-index="4">
+      <p id="f02-hiroshima-city" class="f02-hiroshima-city">広島グランプリ</p>
+      <div id="f02-hiroshima-stat" class="f02-hiroshima-stat">1周 7.31km × 2周</div>
+      <div id="f02-hiroshima-latin" class="f02-hiroshima-latin">HIROSHIMA</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* kinetic-beat-slam: ONE tempo grid drives every onset. The pulse is carried by
+         picture events, not sound — the gate clearing overhead, then the swap into the
+         city. Three units land in the order every city frame repeats: 街名 → 距離 → 英字. */
+      var PULSE = 0.2;
+      var BEATS = [PULSE * 7, PULSE * 12, PULSE * 16]; // 1.4s · 2.4s · 3.2s
+      var SEAM = BEATS[1]; // 2.4s — hiro-dome-gate → hiro-city
+
+      /* Scene 3 seam — cut-the-curve. The two clips are already velocity- and
+         heading-matched, so the cut itself is the move; the frame covers the swap frame
+         with the catalog's mirrored pair — power4.in up to the cut, power4.out away from
+         it, the SAME peak on both sides, nothing travelling fully in or out. */
+      tl.fromTo(
+        "#f02-hiroshima-curtain",
+        { opacity: 0 },
+        { opacity: 0.38, duration: 0.16, ease: "power4.in" },
+        SEAM - 0.16,
+      );
+      tl.to("#f02-hiroshima-curtain", { opacity: 0, duration: 0.2, ease: "power4.out" }, SEAM);
+
+      /* Scene 2 (beat 1) — 広島グランプリ is slammed into the lower left the moment the
+         gate clears the top of frame: scale + blur slam, the rule's default hit. */
+      tl.fromTo(
+        "#f02-hiroshima-city",
+        {
+          scale: 1.28,
+          y: 34,
+          opacity: 0,
+          filter: "blur(16px)",
+          transformOrigin: "0% 100%",
+        },
+        {
+          scale: 1,
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.44,
+          ease: "power4.out",
+        },
+        BEATS[0],
+      );
+
+      /* Scene 3 (beat 2) — the distance rides the cut. It ignites already moving and
+         decelerates leftward, the mirrored .out half of the seam, on a different axis and
+         a different ease from beat 1. 移動量は画面幅に合わせて 230→150px。 */
+      tl.fromTo(
+        "#f02-hiroshima-stat",
+        { x: 150, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.34, ease: "expo.out" },
+        BEATS[1],
+      );
+
+      /* Scene 4 (beat 3) — the latin label rises last, then all three lines hold dead
+         still and only the footage keeps running. */
+      tl.fromTo(
+        "#f02-hiroshima-latin",
+        /* 字間 (letterSpacing) は動かさない。文字の再配置が整数ピクセルに丸められ、
+           コマ送りで書き出すとイーズの尾がガタつくため (lint: gsap_non_transform_motion)。
+           CSS 側で 0.14em に固定し、動きは y と opacity だけで作る。 */
+        { y: 44, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.46, ease: "circ.out" },
+        BEATS[2],
+      );
+
+      window.__timelines["02-hiroshima"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

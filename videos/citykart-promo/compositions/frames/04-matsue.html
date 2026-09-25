@@ -1,0 +1,264 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+    /* ------------------------------------------------------------------
+       04-matsue — 松江グランプリ
+       Dark register only: ground #0B1A2A · text #EEF1F4 · single accent #FFD83D.
+       No @font-face is declared because no font file ships with this project,
+       so only generic families (sans-serif / monospace) are named.
+       Layout is authored in px against the fixed 1920x1080 canvas.
+       ------------------------------------------------------------------ */
+
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      color: #eef1f4;
+      font-family: "Noto Sans JP", sans-serif;
+      /* no z-index / transform / filter / container-type here: the frame root must
+         NOT open a stacking context, so the hoisted full-bleed clip can sit
+         under the veil/type layers (which carry their own z-index) and over the
+         ink ground below. */
+    }
+
+    /* full-bleed ground — the frame's own dependable ink field (lowest lane) */
+    #frame-04-matsue-ground {
+      position: absolute;
+      inset: 0;
+      /* 映像が全面に入るので下地は透明。色を置くと映像を隠してしまう */
+      background: transparent;
+      z-index: 0;
+    }
+
+    /* legibility veil over the footage — same gradient as the confirmed sketch */
+    #frame-04-matsue-veil {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: linear-gradient(
+        to top,
+        rgba(11, 26, 42, 0.92) 6%,
+        rgba(11, 26, 42, 0.35) 55%,
+        transparent 100%
+      );
+    }
+
+    /* flat ink field used only for the inverse zoom-through seam at 2.9s */
+    #frame-04-matsue-wash {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background: #0b1a2a;
+      opacity: 0;
+    }
+
+    /* the type group — the element the seam's Z-move is performed on */
+    #frame-04-matsue-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+    }
+
+    /* bottom-left block, exactly the confirmed sketch's hierarchy.
+       bottom:200px は 02・03 と同じ下端（字幕帯の 896px より上）。3つの街で文字の位置を揃える。 */
+    #frame-04-matsue-block {
+      position: absolute;
+      left: 106px;
+      right: 106px;
+      bottom: 200px;
+    }
+
+    #frame-04-matsue-title {
+      margin: 0;
+      font-size: 104px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #eef1f4;
+    }
+
+    #frame-04-matsue-stat {
+      /* 行ボックスの重なり (check: content_overlap) を避けるため余白を広げる。
+         和文は line-height:1 だと字面が行ボックスをはみ出す。 */
+      margin-top: 30px;
+      font-size: 81px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #ffd83d;
+    }
+
+    #frame-04-matsue-label {
+      margin-top: 16px;
+      font-family: "Noto Sans JP", monospace;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #9aa8b6;
+    }
+  </style>
+
+  <div data-hf-id="hf-kgsn" id="root" data-composition-id="04-matsue" data-width="1920" data-height="1080" data-duration="4.4">
+    <div data-hf-id="hf-7j0g" id="frame-04-matsue-ground" class="clip" data-start="0" data-duration="4.4" data-track-index="0"></div>
+
+    <!-- first half: karts running abreast on the Shinjiko bridge (full-bleed) -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <!-- last ~1.1s: the sunset lake, arrived at and held -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <div data-hf-id="hf-4nwy" id="frame-04-matsue-veil" class="clip" data-start="0" data-duration="4.4" data-track-index="3"></div>
+
+    <div data-hf-id="hf-hj6t" id="frame-04-matsue-stage" class="clip" data-start="0" data-duration="4.4" data-track-index="4">
+      <div data-hf-id="hf-4luh" id="frame-04-matsue-block">
+        <p data-hf-id="hf-5cxx" id="frame-04-matsue-title">松江グランプリ</p>
+        <div data-hf-id="hf-2nc7" id="frame-04-matsue-stat">1周 9.6km × 2周</div>
+        <div data-hf-id="hf-v2cp" id="frame-04-matsue-label">MATSUE</div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-fjd5" id="frame-04-matsue-wash" class="clip" data-start="2.85" data-duration="1.55" data-track-index="5"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- kinetic-beat-slam: ONE tempo grid drives every entrance ----------
+      const PULSE = 0.2; // seconds per sub-beat
+      const BEATS = [PULSE * 6, PULSE * 11, PULSE * 13]; // 1.2 / 2.2 / 2.6
+
+      // ---- inverse zoom-through seam (cut-catalog) --------------------------
+      const SEAM_OUT = 2.7; // phase 1 — the bridge half recedes
+      const CUT = 2.9; // phase 2 — hard cut; the sunset clip takes the frame
+      const ENTRY = 0.5; // phase 3 — the arrival retracts into the focal plane
+      // after CUT + ENTRY = 3.4s NOTHING moves — the video's only held beat.
+
+      const stage = "#frame-04-matsue-stage";
+      const wash = "#frame-04-matsue-wash";
+
+      // Scene 1 (0.0–1.2s) — footage only. No type, no overlay move.
+
+      // Scene 2 (1.2–2.2s) — 「松江グランプリ」is slammed down into the lower left.
+      // entrance A: scale + blur slam, power4.out
+      tl.fromTo(
+        "#frame-04-matsue-title",
+        { scale: 1.22, yPercent: -16, opacity: 0, filter: "blur(14px)" },
+        {
+          scale: 1,
+          yPercent: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.45,
+          ease: "power4.out",
+        },
+        BEATS[0],
+      );
+
+      // slow push under the beats, rendered as scale on the type group
+      // (blueprint camera modifier) — it stops dead at the seam.
+      tl.fromTo(
+        stage,
+        { scale: 1 },
+        { scale: 1.025, duration: SEAM_OUT - BEATS[0], ease: "none", immediateRender: false },
+        BEATS[0],
+      );
+
+      // Scene 3 (2.2–2.9s) — the distance, then the latin label, land in turn.
+      // entrance B: side snap, expo.out
+      tl.fromTo(
+        "#frame-04-matsue-stat",
+        { x: -260, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4, ease: "expo.out" },
+        BEATS[1],
+      );
+      // entrance C: rise, circ.out
+      tl.fromTo(
+        "#frame-04-matsue-label",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3, ease: "circ.out" },
+        BEATS[2],
+      );
+
+      // Scene 4 (2.9–4.0s) — inverse zoom-through into the sunset, then the hold.
+      // Phase 1 — the bridge half recedes AWAY from the viewer (scale down + blur),
+      // opacity split onto its own linear tween so the dimming is even.
+      tl.fromTo(
+        stage,
+        { scale: 1.025, filter: "blur(0px)" },
+        {
+          scale: 0.86,
+          filter: "blur(10px)",
+          duration: CUT - SEAM_OUT,
+          ease: "power3.in",
+          immediateRender: false,
+        },
+        SEAM_OUT,
+      );
+      tl.fromTo(
+        stage,
+        { opacity: 1 },
+        { opacity: 0.15, duration: CUT - SEAM_OUT, ease: "none", immediateRender: false },
+        SEAM_OUT,
+      );
+
+      // Phase 2 + 3 — at the cut both sides match (same peak blur, same shrinking
+      // direction); the incoming state arrives OVERSIZED and retracts into place.
+      // Full-frame surface -> 18px; text-scale -> 10px (cut-catalog blur logic).
+      tl.fromTo(
+        wash,
+        { opacity: 0.55, scale: 1.25, filter: "blur(18px)" },
+        {
+          opacity: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: ENTRY,
+          ease: "expo.out",
+          immediateRender: false,
+        },
+        CUT,
+      );
+      tl.fromTo(
+        stage,
+        { opacity: 0.15, scale: 1.25, filter: "blur(10px)" },
+        {
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: ENTRY,
+          ease: "expo.out",
+          immediateRender: false,
+        },
+        CUT,
+      );
+
+      // 3.4s → 4.0s: deliberate stillness. No breath loop, no settle, no exit.
+
+      window.__timelines["04-matsue"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

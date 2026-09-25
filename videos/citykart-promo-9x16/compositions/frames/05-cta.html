@@ -1,0 +1,377 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+    /* ------------------------------------------------------------------
+       05-cta — 3つの入口は、ここ  /  9:16 port
+       1080x1920 / 5.0s / 最終カット（URL は最後のコマまで残す）
+       16:9 版（citykart-promo/compositions/frames/05-cta.html）の
+       タイミング・モーション・文言・型階層はそのまま。版面だけ縦に組み替えた:
+         ページカードは上〜中段、URL はその下で本編最大の文字、
+         3項目は URL の下に縦積み（横1行では 1080 に収まらないため）。
+       register: dark  ground #0B1A2A · text #EEF1F4 · accent #FFD83D (1色のみ)
+       keep-out: すべての要素は y <= 1594 (0.83 x 1920) より上
+       ------------------------------------------------------------------ */
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Noto Sans JP", sans-serif;
+      color: #eef1f4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .f05-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* --- 地: 空撮の上に敷く暗幕（全面 clip / #root には塗らない） --- */
+    #f05-ground {
+      background: #0b1a2a;
+      opacity: 0.44;
+    }
+
+    /* --- Scene 1: 3つの街の色面 + 収束点 --- */
+    #f05-converge {
+      pointer-events: none;
+    }
+
+    .f05-slab {
+      position: absolute;
+      top: 430px;
+      width: 260px;
+      height: 420px;
+      --dof: 0px;
+      filter: blur(var(--dof));
+      will-change: filter;
+      background: #0f2135;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    #f05-slab-1 {
+      left: 120px;
+    }
+    #f05-slab-2 {
+      left: 410px;
+    }
+    #f05-slab-3 {
+      left: 700px;
+    }
+
+    .f05-slab-rule {
+      position: absolute;
+      left: 24px;
+      bottom: 76px;
+      width: 36px;
+      height: 2px;
+      background: #ffd83d;
+    }
+
+    .f05-slab-label {
+      position: absolute;
+      left: 24px;
+      bottom: 34px;
+      font-family: "Noto Sans JP", monospace;
+      font-size: 2cqw;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #9aa8b6;
+    }
+
+    /* 中央の収束点（frame.md の rule stub 36x2） */
+    #f05-focus {
+      position: absolute;
+      left: 522px;
+      top: 639px;
+      width: 36px;
+      height: 2px;
+      background: #ffd83d;
+      opacity: 0;
+    }
+
+    /* --- Scene 2: citykart.jp の実画面（3d-page-scroll / tilt は静止） ---
+       縦版ではページがヒーロー。画面幅の約 80% (860px) まで大きく取る。 */
+    #f05-card {
+      position: absolute;
+      left: 110px;
+      top: 250px;
+      width: 860px;
+      height: 780px;
+      overflow: hidden;
+      background: #0b1a2a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transform-style: preserve-3d;
+      opacity: 0;
+    }
+
+    #f05-page {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: 860px;
+      height: auto;
+    }
+
+    /* --- 文字の可読性スクリム（絵コンテの .veil / 縦版の比率に合わせ直す） --- */
+    #f05-veil {
+      pointer-events: none;
+      background: linear-gradient(
+        to top,
+        rgba(11, 26, 42, 0.95) 0%,
+        rgba(11, 26, 42, 0.92) 38%,
+        rgba(11, 26, 42, 0.62) 45%,
+        rgba(11, 26, 42, 0.18) 51%,
+        rgba(11, 26, 42, 0) 57%
+      );
+    }
+
+    /* --- Scene 3 / 4: URL と3つの障壁の無さ --- */
+    #f05-url {
+      position: absolute;
+      left: 64px;
+      top: 1100px;
+      margin: 0;
+      font-size: 17cqw;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: #ffd83d;
+      white-space: nowrap;
+      opacity: 0;
+    }
+
+    /* 横1行では 1080 幅に収まらないので縦積み（9:16 の "3 stacked"）。 */
+    #f05-bullets {
+      position: absolute;
+      left: 64px;
+      top: 1330px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .f05-bullet {
+      font-size: 4.4cqw;
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: 0.01em;
+      color: #eef1f4;
+      white-space: nowrap;
+      opacity: 0;
+    }
+
+    .f05-bullet::before {
+      content: "/";
+      margin-right: 1.1cqw;
+      font-family: "Noto Sans JP", monospace;
+      font-weight: 400;
+      color: #ffd83d;
+    }
+  </style>
+
+  <div id="root" data-composition-id="05-cta" data-start="0" data-duration="5" data-width="1080" data-height="1920">
+    <!-- 背景: 原爆ドーム空撮（全面 / 暗幕は #f05-ground 側で掛ける） -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <!-- 全面の地（暗幕 / layered-depth の背景プレーン） -->
+    <div id="f05-ground" class="clip f05-layer" data-start="0" data-duration="5" data-track-index="1"></div>
+
+    <!-- Scene 1: 3つの街の色面が中央へ収まる -->
+    <div id="f05-converge" class="clip f05-layer" data-start="0" data-duration="5" data-track-index="2">
+      <div class="f05-slab" id="f05-slab-1">
+        <div class="f05-slab-rule"></div>
+        <div class="f05-slab-label">HIROSHIMA</div>
+      </div>
+      <div class="f05-slab" id="f05-slab-2">
+        <div class="f05-slab-rule"></div>
+        <div class="f05-slab-label">FUKUYAMA</div>
+      </div>
+      <div class="f05-slab" id="f05-slab-3">
+        <div class="f05-slab-rule"></div>
+        <div class="f05-slab-label">MATSUE</div>
+      </div>
+      <div id="f05-focus"></div>
+    </div>
+
+    <!-- Scene 2: citykart.jp の実画面 -->
+    <div id="f05-stage" class="clip f05-layer" data-start="0" data-duration="5" data-track-index="3">
+      <div id="f05-card">
+        <img id="f05-page" src="assets/lp-full-page.png" alt="">
+      </div>
+    </div>
+
+    <div id="f05-veil" class="clip f05-layer" data-start="0" data-duration="5" data-track-index="4"></div>
+
+    <!-- Scene 3 / 4 -->
+    <div id="f05-copy" class="clip f05-layer" data-start="0" data-duration="5" data-track-index="5">
+      <p id="f05-url">citykart.jp</p>
+      <div id="f05-bullets">
+        <span class="f05-bullet" id="f05-bullet-1">無料</span>
+        <span class="f05-bullet" id="f05-bullet-2">インストール不要</span>
+        <span class="f05-bullet" id="f05-bullet-3">最大8人で対戦</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var SLABS = ["#f05-slab-1", "#f05-slab-2", "#f05-slab-3"];
+      /* 3面の中心 (250 / 540 / 830) を カード中心 x=540 へ運ぶ差分 */
+      var DELTA = [290, 0, -290];
+
+      /* 3d-page-scroll — tilt は静止。#f05-card は GSAP が transform を全面所有
+         するので CSS 側には transform を書かない（matrix の上書き事故を避ける）。 */
+      gsap.set("#f05-card", {
+        transformPerspective: 1150,
+        transformOrigin: "50% 50%",
+        rotateX: 6,
+      });
+      gsap.set("#f05-focus", { transformOrigin: "50% 50%" });
+      SLABS.forEach(function (sel) {
+        gsap.set(sel, { transformOrigin: "50% 50%" });
+      });
+
+      /* ---------------- Scene 1 (0.0–1.2s) — 収束 ----------------
+         scale-swap-transition の outgoing:
+         TRIGGER 0.42 / EXIT_DUR 0.46 / EXIT_SCALE 0.70 / power2.in
+         3面はそれぞれ自分の中心を (540, 640) — カード中心 — へ運ぶ。 */
+
+      /* presence: わずかに内へ寄る（収束の予兆） */
+      SLABS.forEach(function (sel, i) {
+        tl.to(
+          sel,
+          {
+            x: DELTA[i] * 0.09,
+            scale: 0.99,
+            duration: 0.42,
+            ease: "power1.in",
+          },
+          0,
+        );
+      });
+
+      /* converge: 中央の一点へ重なりながら縮んで消える + 奥へ退く（depth-of-field） */
+      SLABS.forEach(function (sel, i) {
+        tl.to(
+          sel,
+          {
+            x: DELTA[i],
+            scale: 0.7,
+            opacity: 0,
+            "--dof": "8px",
+            duration: 0.46,
+            ease: "power2.in",
+          },
+          0.42,
+        );
+      });
+
+      /* 収束点が中央に立つ */
+      tl.fromTo(
+        "#f05-focus",
+        { opacity: 0, scaleX: 0.2 },
+        { opacity: 1, scaleX: 1, duration: 0.32, ease: "power2.out" },
+        0.5,
+      );
+
+      /* ---------------- Scene 2 (1.2–2.6s) — 実画面が立ち上がる ----------------
+         incoming: TRIGGER + EXIT_DUR - OVERLAP = 0.42 + 0.46 - 0.15 = 0.73
+         ENTER_DUR 0.65 / back.out(1.4) / 同じ transform-origin を共有 */
+      tl.fromTo(
+        "#f05-card",
+        { opacity: 0, scale: 0.7, y: 40 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.65,
+          ease: "back.out(1.4)",
+        },
+        0.73,
+      );
+
+      /* 点がカードへ開いて受け渡される */
+      tl.to(
+        "#f05-focus",
+        { scaleX: 12, opacity: 0, duration: 0.3, ease: "power2.in" },
+        0.8,
+      );
+
+      /* layered-depth: 焦点面が着地するぶん背景プレーンが一段落ちる */
+      tl.to(
+        "#f05-ground",
+        { opacity: 0.6, duration: 0.75, ease: "power2.inOut" },
+        0.75,
+      );
+
+      /* 上端から下へ少しだけスクロールしてコース一覧が見える。
+         SCROLL_DISTANCE は実レイアウト実測値:
+         素材 1920x4500 を 860px 幅で表示 → 表示倍率 0.44792、全高 2015px。
+         「コース」見出しは原寸 y≈1176、3枚のコースカードは原寸 1260–2352。
+         カード高 780 なので y=-460 で表示 460–1240（原寸 1027–2768）が窓に入り、
+         見出しが窓の上から 67px、3枚のコースカードがその下に収まる。 */
+      tl.to(
+        "#f05-page",
+        { y: -460, duration: 1.0, ease: "power3.out" },
+        1.55,
+      );
+
+      /* ---------------- Scene 3 (2.6–3.6s) — URL が着地する ----------------
+         縦版では本編で一番大きい文字（17cqw / 900）がページの真下に着地する。 */
+      tl.fromTo(
+        "#f05-url",
+        { opacity: 0, y: 70 },
+        { opacity: 1, y: 0, duration: 0.75, ease: "power4.out" },
+        2.6,
+      );
+
+      /* ---------------- Scene 4 (3.6–5.0s) — 3つが上から順に ----------------
+         出そろったあとは何も動かさない（held read）。URL は最後のコマまで残る。 */
+      ["#f05-bullet-1", "#f05-bullet-2", "#f05-bullet-3"].forEach(
+        function (sel, i) {
+          tl.fromTo(
+            sel,
+            { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" },
+            3.55 + i * 0.15,
+          );
+        },
+      );
+
+      /* 4.27s 以降は静止。タイムライン長を 5.0s に固定する（値は変えない）。 */
+      tl.to("#f05-url", { opacity: 1, duration: 0.01 }, 4.99);
+
+      window.__timelines["05-cta"] = tl;
+    })();
+  </script>
+</template>

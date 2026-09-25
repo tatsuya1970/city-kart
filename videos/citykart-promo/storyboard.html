@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>シティカート 紹介動画 — 絵コンテ v1</title>
+<style>
+  /* 絵コンテのシート。動きは付けない（配置・階層・文言だけを見るため）。
+     セルは 16:9 で、寸法は cqw なので本番の 1920x1080 と同じ比率で読める。 */
+  :root {
+    --ink: #0B1A2A;        /* 地（citykart.jp の --bg） */
+    --ink-2: #0F2135;
+    --fg: #EEF1F4;         /* 文字 */
+    --muted: #9AA8B6;
+    --accent: #FFD83D;     /* 差し色 */
+    --accent-shadow: #B6201F;
+    --line: rgba(255,255,255,.12);
+    --sheet: #15181c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--sheet); color: var(--fg);
+    font-family: "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif;
+  }
+  header { padding: 28px 32px 8px; border-bottom: 1px solid var(--line); }
+  h1 { margin: 0 0 6px; font-size: 22px; font-weight: 900; letter-spacing: .02em; }
+  .dek { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .tag {
+    display: inline-block; margin-top: 10px; padding: 3px 10px; border: 1px solid var(--line);
+    border-radius: 999px; color: var(--accent); font-size: 12px; font-weight: 700;
+    font-family: "IBM Plex Mono", monospace; letter-spacing: .1em;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; padding: 26px 32px 40px; }
+  .item { display: flex; flex-direction: column; gap: 8px; }
+  .cell {
+    aspect-ratio: 16 / 9; container-type: inline-size; position: relative; overflow: hidden;
+    background: var(--ink); border: 1px solid var(--line);
+  }
+  .label-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .label-row b { color: var(--fg); font-weight: 700; }
+  .note { margin: 0; font-size: 12.5px; line-height: 1.6; color: #c6ced6; }
+  .note b { color: var(--accent); }
+  .chip {
+    align-self: flex-start; padding: 2px 8px; border: 1px solid rgba(255,216,61,.4); border-radius: 999px;
+    color: var(--accent); font-size: 11px; font-weight: 700; font-family: "IBM Plex Mono", monospace;
+  }
+
+  /* --- セルの中で使う部品（すべて cqw 基準） --- */
+  .media {                       /* 実素材の place holder（本番では動画/画像が入る） */
+    position: absolute; inset: 0; background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 10px, transparent 10px 20px),
+      linear-gradient(160deg, #24384c, #101d2b);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .media span {
+    font-family: "IBM Plex Mono", monospace; font-size: 3.2cqw; color: rgba(255,255,255,.5);
+    letter-spacing: .08em; text-align: center; line-height: 1.5;
+  }
+  .veil { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,26,42,.92) 6%, rgba(11,26,42,.35) 55%, transparent 100%); }
+  .pad { position: absolute; inset: 0; padding: 5.5cqw; display: flex; flex-direction: column; justify-content: flex-end; }
+  .kicker { font-size: 2.4cqw; font-weight: 900; font-style: italic; letter-spacing: .06em; color: var(--accent); text-shadow: 0 .25cqw 0 var(--accent-shadow); }
+  .h1 { font-size: 7.5cqw; font-weight: 900; line-height: .95; letter-spacing: -.03em; margin: 1cqw 0 0; }
+  .h2 { font-size: 5.4cqw; font-weight: 900; line-height: 1; letter-spacing: -.02em; margin: 0; }
+  .stat { font-size: 4.2cqw; font-weight: 900; color: var(--accent); letter-spacing: -.02em; }
+  .sub { font-size: 2.2cqw; color: var(--muted); margin-top: .8cqw; }
+  .mono { font-family: "IBM Plex Mono", monospace; font-size: 1.9cqw; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .gantry {                      /* ゲーム内の看板ゲート（青地＋赤ライン） */
+    position: absolute; left: 8%; right: 8%; top: 12%; padding: 1.6cqw 2cqw; text-align: center;
+    background: #123a6b; border-top: .5cqw solid #e0402f; border-bottom: .5cqw solid #e0402f;
+  }
+  .gantry .jp { font-size: 4.2cqw; font-weight: 900; letter-spacing: .12em; }
+  .gantry .en { font-size: 1.8cqw; color: var(--accent); letter-spacing: .1em; }
+  .urlbar { display: flex; align-items: baseline; gap: 1.2cqw; }
+  .url { font-size: 6.4cqw; font-weight: 900; letter-spacing: -.02em; color: var(--accent); }
+  .bullets { display: flex; gap: 1.6cqw; margin-top: 1.4cqw; flex-wrap: wrap; }
+  .bullets span { border: 1px solid rgba(255,216,61,.45); color: var(--accent); border-radius: 999px; padding: .4cqw 1.4cqw; font-size: 1.8cqw; font-weight: 700; }
+  .page {                        /* citykart.jp の実画面（縮小して立ち上がる） */
+    position: absolute; left: 50%; top: 56%; transform: translate(-50%, -50%) perspective(60cqw) rotateX(8deg);
+    width: 52%; aspect-ratio: 16/10; background: linear-gradient(#16283a, #0d1b29);
+    border: 1px solid var(--line); display: flex; flex-direction: column; gap: .8cqw; padding: 1.4cqw;
+  }
+  .page i { display: block; background: rgba(255,255,255,.14); height: 1.1cqw; border-radius: .2cqw; }
+  .page i.w1 { width: 48%; background: var(--accent); }
+  .page i.w2 { width: 70%; }
+  .page .row { display: flex; gap: .8cqw; margin-top: .6cqw; }
+  .page .row b { flex: 1; height: 5cqw; background: rgba(255,255,255,.1); border-radius: .2cqw; display: block; }
+
+  /* 締めの2セル */
+  .seams { display: flex; align-items: stretch; height: 100%; }
+  .seams div { flex: 1; border-right: 1px solid var(--line); padding: 2.4cqw; font-size: 1.7cqw; color: var(--muted); }
+  .seams div:last-child { border-right: 0; }
+  .seams b { display: block; color: var(--accent); font-family: "IBM Plex Mono", monospace; font-size: 1.5cqw; margin-bottom: .6cqw; letter-spacing: .1em; }
+  .tokens { padding: 3cqw; font-size: 1.8cqw; line-height: 1.7; }
+  .sw { display: inline-block; width: 3cqw; height: 3cqw; vertical-align: middle; margin-right: .8cqw; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <h1>シティカート 紹介動画 — 絵コンテ v1</h1>
+  <p class="dek">「広島・福山・松江の3つの街を走るカートレースが、citykart.jp にまとまった」を20秒で伝える。X のタイムラインで無音再生される前提。</p>
+  <div class="tag">1920×1080 ・ 20秒 ・ 5カット ・ 無音</div>
+</header>
+
+<div class="grid">
+  <!-- 01 -->
+  <div class="item">
+    <div class="cell" id="frame-01">
+      <div class="media"><span>[ 映像 ]<br />原爆ドーム空撮<br />hiro-dome-air.mp4</span></div>
+      <div class="veil"></div>
+      <div class="pad">
+        <div class="kicker">CITY KART</div>
+        <p class="h1">実在の街が、<br />サーキットになる。</p>
+      </div>
+    </div>
+    <div class="label-row"><b>01 · 掴み</b><span>0.0–3.0s</span></div>
+    <p class="note"><b>最初に動くもの：</b>空撮のカメラが回り続けるなか、見出しが下から1行ずつ着地。文字は左下、映像は全面。</p>
+    <span class="chip">seam → zoom-through</span>
+  </div>
+
+  <!-- 02 -->
+  <div class="item">
+    <div class="cell" id="frame-02">
+      <div class="media"><span>[ 映像 ]<br />原爆ドーム前ゲート通過<br />hiro-dome-gate.mp4</span></div>
+      <div class="gantry"><div class="jp">原爆ドーム前</div><div class="en">A-BOMB DOME</div></div>
+      <div class="veil"></div>
+      <div class="pad">
+        <p class="h2">広島グランプリ</p>
+        <div class="stat">1周 7.31km × 2周</div>
+        <div class="mono">HIROSHIMA</div>
+      </div>
+    </div>
+    <div class="label-row"><b>02 · 広島</b><span>3.0–7.0s</span></div>
+    <p class="note"><b>最初に動くもの：</b>看板ゲートが画面上から近づいてくる（実映像）。街名が左下に着地し、距離が続けて出る。</p>
+    <span class="chip">seam → push-slide LEFT</span>
+  </div>
+
+  <!-- 03 -->
+  <div class="item">
+    <div class="cell" id="frame-03">
+      <div class="media"><span>[ 映像 ]<br />芦田川大橋の主塔<br />fuku-bridge.mp4</span></div>
+      <div class="veil"></div>
+      <div class="pad">
+        <p class="h2">福山グランプリ</p>
+        <div class="stat">20.7km ワンウェイ</div>
+        <div class="sub">福山駅 → 鞆の浦 常夜燈</div>
+        <div class="mono">FUKUYAMA</div>
+      </div>
+    </div>
+    <div class="label-row"><b>03 · 福山</b><span>7.0–11.0s</span></div>
+    <p class="note"><b>最初に動くもの：</b>斜張橋の主塔が頭上を通過。「ワンウェイ」だけ黄色で強め、行き先を小さく添える。</p>
+    <span class="chip">seam → push-slide LEFT</span>
+  </div>
+
+  <!-- 04 -->
+  <div class="item">
+    <div class="cell" id="frame-04">
+      <div class="media"><span>[ 映像 ]<br />宍道湖大橋の並走 → 夕日<br />matsue-bridge.mp4 / matsue-sunset.mp4</span></div>
+      <div class="veil"></div>
+      <div class="pad">
+        <p class="h2">松江グランプリ</p>
+        <div class="stat">1周 9.6km × 2周</div>
+        <div class="mono">MATSUE</div>
+      </div>
+    </div>
+    <div class="label-row"><b>04 · 松江</b><span>11.0–15.0s</span></div>
+    <p class="note"><b>最初に動くもの：</b>橋の上をカートが数台で並走。後半で夕日のカットへ切り替わり、ここで一拍置く（静止の間）。</p>
+    <span class="chip">seam → zoom-through</span>
+  </div>
+
+  <!-- 05 -->
+  <div class="item">
+    <div class="cell" id="frame-05">
+      <div class="page">
+        <i class="w1"></i><i class="w2"></i><i></i>
+        <div class="row"><b></b><b></b><b></b></div>
+      </div>
+      <div class="veil"></div>
+      <div class="pad">
+        <div class="urlbar"><span class="url">citykart.jp</span></div>
+        <div class="bullets"><span>無料</span><span>インストール不要</span><span>最大8人で対戦</span></div>
+      </div>
+    </div>
+    <div class="label-row"><b>05 · 入口</b><span>15.0–20.0s</span></div>
+    <p class="note"><b>最初に動くもの：</b>3つの街の画が中央へ収束し、citykart.jp の実画面が奥から立ち上がる。URL は最後まで画面に残す。</p>
+    <span class="chip">最終カット（exit なし）</span>
+  </div>
+
+  <!-- 繋ぎの地図 -->
+  <div class="item">
+    <div class="cell">
+      <div class="seams">
+        <div><b>01 → 02</b>zoom-through<br />空から地上へ降りる</div>
+        <div><b>02 → 03</b>push-slide ←<br />街から街へ横送り</div>
+        <div><b>03 → 04</b>push-slide ←<br />同じ向きで揃える</div>
+        <div><b>04 → 05</b>zoom-through<br />街から入口へ</div>
+      </div>
+    </div>
+    <div class="label-row"><b>繋ぎ</b><span>横送りは常に左へ</span></div>
+    <p class="note">街を並べる3カットは同じ方向の横送りで「並んでいる」と分からせ、章が変わる2か所だけ zoom-through にする。</p>
+  </div>
+
+  <!-- トークン -->
+  <div class="item">
+    <div class="cell">
+      <div class="tokens">
+        <div><span class="sw" style="background:#0B1A2A"></span>#0B1A2A 地</div>
+        <div><span class="sw" style="background:#EEF1F4"></span>#EEF1F4 文字</div>
+        <div><span class="sw" style="background:#FFD83D"></span>#FFD83D 差し色（1色だけ）</div>
+        <div><span class="sw" style="background:#9AA8B6"></span>#9AA8B6 補助文字</div>
+        <div style="margin-top:1.4cqw">見出し = Hiragino Sans 900 / 数字も 900 / 英字ラベルは IBM Plex Mono 大文字</div>
+      </div>
+    </div>
+    <div class="label-row"><b>色と書体</b><span>frame.md より</span></div>
+    <p class="note"><b>やらないこと：</b>スライド的な「1カット1枚の静止カード」、意味のない浮遊アニメ、ブラウザの枠や偽のUI、マリオカートを想起させる文言。</p>
+  </div>
+</div>
+</body>
+</html>

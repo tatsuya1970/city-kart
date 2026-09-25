@@ -1,0 +1,308 @@
+<template>
+  <div id="root" data-composition-id="03-fukuyama" data-width="1080" data-height="1920" data-duration="4.5">
+    <style>
+      @font-face {
+        font-family: "Noto Sans JP";
+        src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Noto Sans JP";
+        src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Noto Sans JP";
+        src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+        font-weight: 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      /* 03-fukuyama (9:16) — 福山グランプリ / 20.7km ワンウェイ
+         16:9 版の移植。タイミング・モーション・文言・階層はそのまま、
+         レイアウトだけ縦向きに組み替える（文字ブロックは下三分の一、上三分の二は画）。
+         frame.md dark register only: ground #0B1A2A · text #EEF1F4 · accent #FFD83D (1色だけ).
+         Sizes are px against the fixed 1080x1920 canvas (1cqw = 10.8px) — px instead of cqw on
+         purpose: `container-type: size` would add containment (a stacking context) on #root and
+         trap the overlay z-index under the hoisted background videos. */
+
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* full-bleed ground — a clip layer, never a background on the frame root.
+         No z-index on purpose: it must stay UNDER the two hoisted background videos. */
+      .f03-fukuyama-ground {
+        position: absolute;
+        inset: 0;
+        /* 映像が全面に入るので下地は透明。色を置くと映像を隠してしまう */
+        background: transparent;
+      }
+
+      /* the background videos are dimmed ~35-45% so the copy stays legible.
+         縦位置なので減光は下三分の一（文字のいる帯）に寄せる。 */
+      .f03-fukuyama-veil {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        background: linear-gradient(
+          to top,
+          rgba(11, 26, 42, 0.94) 4%,
+          rgba(11, 26, 42, 0.78) 20%,
+          rgba(11, 26, 42, 0.42) 38%,
+          rgba(11, 26, 42, 0.16) 62%,
+          rgba(11, 26, 42, 0.08) 100%
+        );
+      }
+
+      /* 下三分の一の文字ブロック。下端 1572px — キャプション帯 (y >= 1594) には掛けない。
+         上端はおよそ y=1274 で、上の三分の二 (y < 1280) は映像のまま。 */
+      .f03-fukuyama-copy {
+        position: absolute;
+        left: 60px; /* 5.5cqw */
+        right: 60px;
+        bottom: 348px;
+        z-index: 30;
+        color: #eef1f4;
+        font-family: "Noto Sans JP", sans-serif;
+      }
+
+      .f03-fukuyama-city {
+        font-size: 98px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: #eef1f4;
+        white-space: nowrap; /* 1080幅でも「福山グランプリ」は必ず1行 (実測 約672px / 960px) */
+      }
+
+      .f03-fukuyama-stat {
+        /* 行ボックスの重なり (check: content_overlap) を避けるため余白を広げる */
+        margin-top: 22px;
+        font-size: 76px;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        color: #ffd83d;
+      }
+
+      .f03-fukuyama-num {
+        display: inline-block;
+      }
+
+      /* 「ワンウェイ」だけ一拍遅れて強く入る。位置は先に確保しておく（入場でリフローさせない）。
+         inline-block なので、幅が足りなければ語のまとまりごと2行目へ折り返す。 */
+      .f03-fukuyama-emph {
+        position: relative;
+        display: inline-block;
+        transform-origin: 0% 50%;
+      }
+
+      /* frame.md の唯一の装飾＝アクセントの棒。ワンウェイの下に引かれる。 */
+      .f03-fukuyama-rule {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -14px;
+        height: 3px;
+        background: #ffd83d;
+        transform-origin: 0% 50%;
+      }
+
+      .f03-fukuyama-dest {
+        margin-top: 18px;
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #9aa8b6;
+      }
+
+      .f03-fukuyama-mono {
+        margin-top: 14px;
+        font-family: "Noto Sans JP", sans-serif;
+        font-size: 28px;
+        line-height: 1;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #9aa8b6;
+      }
+    </style>
+
+    <!-- ground (under the videos) -->
+    <div class="f03-fukuyama-ground clip" data-start="0" data-duration="4.5" data-track-index="0"></div>
+
+    <!-- Scene 1-2: 芦田川大橋の主塔をくぐる。0.00 - 2.25s -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <!-- Scene 3-4: 鞆の浦・常夜燈の GOAL ゲート。2.25 - 4.00s（cut-the-curve の継ぎ目） -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <div class="f03-fukuyama-veil clip" data-start="0" data-duration="4.5" data-track-index="3"></div>
+
+    <div class="f03-fukuyama-copy clip" data-start="0" data-duration="4.5" data-track-index="4">
+      <p class="f03-fukuyama-city">福山グランプリ</p>
+      <p class="f03-fukuyama-stat">
+        <span class="f03-fukuyama-num">20.7km</span>
+        <span class="f03-fukuyama-emph">ワンウェイ<i class="f03-fukuyama-rule"></i></span>
+      </p>
+      <p class="f03-fukuyama-dest">福山駅 → 鞆の浦 常夜燈</p>
+      <p class="f03-fukuyama-mono">FUKUYAMA</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        var SCENE = 4;
+
+        /* ---- kinetic-beat-slam: ONE tempo grid drives every entrance ---- */
+        var PULSE = 0.15; // seconds per sub-beat
+        var BEATS = [
+          PULSE * 8, // 1.20  Scene 2 — 「福山グランプリ」が叩きつけられる
+          PULSE * 15, // 2.25  Scene 3 — 「20.7km」着地 ＋ 背景 cut
+          PULSE * 17, // 2.55  Scene 3 — 「ワンウェイ」だけ一拍遅れて強く
+          PULSE * 21, // 3.15  Scene 4 — 行き先
+          PULSE * 23, // 3.45  Scene 4 — 英字ラベル
+        ];
+        var RULE_BEAT = PULSE * 18; // 2.70 — アクセントの棒が引かれる
+
+        /* ---- cut-the-curve (cut-catalog.md) ----
+           The two background clips butt at CUT. The copy block carries the seam:
+           it accelerates LEFT into the cut (power4.in) and the same distance /
+           duration decelerates LEFT out of it (power4.out) — mirrored halves of one
+           power4.inOut, so velocity matches exactly at the swap frame. Same peak blur
+           (10px, the text-scale value) on both sides; the exit's opacity dies right
+           on the cut, the entry fades in fast from 0.35 under its deceleration.
+           CUT_X は 16:9 の 230px を画面幅比（12%）で 1080 幅に移した値。 */
+        var CUT = BEATS[1]; // 2.25
+        var CUT_HALF = 0.3;
+        var CUT_X = 130;
+        var CUT_BLUR = 10;
+
+        var tl = gsap.timeline({ paused: true });
+
+        // Scene 2 (1.2-2.2s) — beat 1: scale + blur slam down into the lower third.
+        tl.fromTo(
+          ".f03-fukuyama-city",
+          { y: -56, scale: 1.18, opacity: 0, filter: "blur(12px)" },
+          {
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.42,
+            ease: "power4.out",
+          },
+          BEATS[0],
+        );
+
+        // Scene 2 -> 3 seam, exit half: leftward, accelerating.
+        tl.fromTo(
+          ".f03-fukuyama-copy",
+          { x: 0, filter: "blur(0px)" },
+          {
+            x: -CUT_X,
+            filter: "blur(" + CUT_BLUR + "px)",
+            duration: CUT_HALF,
+            ease: "power4.in",
+            immediateRender: false,
+          },
+          CUT - CUT_HALF,
+        );
+        tl.fromTo(
+          ".f03-fukuyama-copy",
+          { opacity: 1 },
+          {
+            opacity: 0,
+            duration: 0.18,
+            ease: "power2.in",
+            immediateRender: false,
+          },
+          CUT - 0.18,
+        );
+
+        // Seam, entry half: same direction, same distance, decelerating.
+        tl.fromTo(
+          ".f03-fukuyama-copy",
+          { x: CUT_X, opacity: 0.35, filter: "blur(" + CUT_BLUR + "px)" },
+          {
+            x: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: CUT_HALF,
+            ease: "power4.out",
+            immediateRender: false,
+          },
+          CUT,
+        );
+
+        // Scene 3 (2.2-3.1s) — beat 2: the distance snaps in from the side.
+        tl.fromTo(
+          ".f03-fukuyama-num",
+          { x: -110, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.38, ease: "expo.out" },
+          BEATS[1],
+        );
+
+        // beat 3: 「ワンウェイ」— later, and harder. Overshoot pop, the one emphasis of the frame.
+        tl.fromTo(
+          ".f03-fukuyama-emph",
+          { scale: 1.55, opacity: 0, filter: "blur(9px)" },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.4,
+            ease: "back.out(2)",
+          },
+          BEATS[2],
+        );
+        tl.fromTo(
+          ".f03-fukuyama-rule",
+          { scaleX: 0, opacity: 1 },
+          { scaleX: 1, duration: 0.28, ease: "power3.out" },
+          RULE_BEAT,
+        );
+
+        // Scene 4 (3.1-4.0s) — beat 4: 行き先が下から起き上がる。
+        tl.fromTo(
+          ".f03-fukuyama-dest",
+          { y: 22, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, ease: "circ.out" },
+          BEATS[3],
+        );
+
+        // beat 5: 英字ラベルが出る。以後 4.0s まで静止して読ませる。
+        // 字間 (letterSpacing) は動かさない。文字の再配置が整数ピクセルに丸められ、
+        // コマ送りで書き出すとイーズの尾がガタつくため (lint: gsap_non_transform_motion)。
+        // CSS 側で 0.14em に固定し、動きは y と opacity だけで作る。
+        tl.fromTo(
+          ".f03-fukuyama-mono",
+          { opacity: 0, y: 12 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          BEATS[4],
+        );
+
+        // hold the full scene length so the sub-composition never ends short.
+        tl.to({}, { duration: SCENE }, 0);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["03-fukuyama"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </div>
+</template>

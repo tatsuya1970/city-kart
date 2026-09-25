@@ -1,0 +1,217 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-400.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-700.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: "Noto Sans JP";
+      src: url("assets/fonts/NotoSansJP-900.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+      font-display: block;
+    }
+    /* 01-hook — 原爆ドーム空撮の上に、LP の見出しが下から着地する。
+       地 #0B1A2A / 文字 #EEF1F4 / 差し色 #FFD83D の1色だけ。
+       書体ファイルがプロジェクトに同梱されていないため、フォント名は指定せず
+       総称ファミリー（sans-serif）に委ねる。 */
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Noto Sans JP", sans-serif;
+      color: #eef1f4;
+    }
+
+    /* --- 全面の暗幕（この frame のフルブリード地。上は透過して映像を通す） --- */
+    .f-01-hook-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(11, 26, 42, 0.95) 0%,
+        rgba(11, 26, 42, 0.9) 22%,
+        rgba(11, 26, 42, 0.66) 50%,
+        rgba(11, 26, 42, 0.22) 74%,
+        rgba(11, 26, 42, 0) 92%
+      );
+      pointer-events: none;
+    }
+
+    /* --- 文字の置き場。左下寄せ。下 17% のキープアウトより上で止める --- */
+    .f-01-hook-pad {
+      position: absolute;
+      inset: 0;
+      padding: 5.5cqw 5.5cqw 9.6cqw;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+
+    /* kicker — 黄色のイタリック。濃紺のハードシャドウで映像の上でも輪郭が立つ */
+    .f-01-hook-kicker {
+      overflow: hidden;
+      line-height: 1.3;
+    }
+    .f-01-hook-kicker-inner {
+      display: block;
+      padding-right: 0.35em;
+      white-space: nowrap;
+      font-size: 2.4cqw;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: #ffd83d;
+      text-shadow: 0 0.22cqw 0 rgba(11, 26, 42, 0.85);
+    }
+    .f-01-hook-word {
+      display: inline-block;
+    }
+
+    /* 見出し — display 級。2行、下から順に着地 */
+    .f-01-hook-head {
+      margin-top: 1cqw;
+    }
+    .f-01-hook-mask {
+      overflow: hidden;
+      line-height: 1.08;
+    }
+    .f-01-hook-line {
+      display: block;
+      white-space: nowrap;
+      font-size: 7.5cqw;
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #eef1f4;
+    }
+  </style>
+
+  <div data-hf-id="hf-zgs1" id="root" data-composition-id="01-hook" data-start="0" data-duration="3.4" data-width="1920" data-height="1080">
+    <!-- Scene 1–3 通し：原爆ドームの空撮（周回カメラ）。素材自身が動き続ける。 -->
+    <!-- approved frame video hoisted by assemble-index -->
+
+    <div data-hf-id="hf-665g" id="f-01-hook-veil" class="clip f-01-hook-veil" data-start="0" data-duration="3.4" data-track-index="1"></div>
+
+    <div data-hf-id="hf-mn6u" class="f-01-hook-pad">
+      <div data-hf-id="hf-kp6v" id="f-01-hook-kicker" class="clip f-01-hook-kicker" data-start="0" data-duration="3.4" data-track-index="2">
+        <span data-hf-id="hf-b5wi" class="f-01-hook-kicker-inner"><span data-hf-id="hf-ugxt" class="f-01-hook-word">CITY</span>&#160;<span data-hf-id="hf-x3sc" class="f-01-hook-word">KART</span></span>
+      </div>
+
+      <div data-hf-id="hf-4t8e" id="f-01-hook-head" class="clip f-01-hook-head" data-start="0" data-duration="3.4" data-track-index="3">
+        <div data-hf-id="hf-kbbv" class="f-01-hook-mask"><span data-hf-id="hf-ospb" class="f-01-hook-line">実在の街が、</span></div>
+        <div data-hf-id="hf-app7" class="f-01-hook-mask"><span data-hf-id="hf-75pz" class="f-01-hook-line">サーキットになる。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var g = window.gsap;
+      window.__timelines = window.__timelines || {};
+      var tl = g.timeline({ paused: true });
+
+      var root = document.querySelector('[data-composition-id="01-hook"]');
+
+      var veil = root.querySelector("#f-01-hook-veil");
+      var kickerInner = root.querySelector(".f-01-hook-kicker-inner");
+      var words = root.querySelectorAll(".f-01-hook-word");
+      var lines = root.querySelectorAll(".f-01-hook-line");
+
+      /* --- dynamic-content-sequencing ---
+         各項目の尺を「文字数 × 秒/文字 + ベース」で算出し、絶対開始時刻を
+         ビルド時に一度だけ前計算する。onUpdate では何も計算しない。 */
+      function sequence(items, base, secPerChar, overlap, origin) {
+        var cumulative = 0;
+        return items.map(function (item) {
+          var dur = base + item.text.length * secPerChar + (item.hold || 0);
+          var start = origin + cumulative;
+          cumulative += dur * overlap;
+          return { el: item.el, dur: dur, start: start };
+        });
+      }
+
+      var SCENE_2 = 1.1;
+      var SCENE_3 = 2.0;
+
+      /* ---------- Scene 1 (0.0–1.1s) ----------
+         空撮だけ。文字はまだ無い。暗幕は薄いまま（映像が画面の 100%）。 */
+      g.set(veil, { opacity: 0.38 });
+      g.set(kickerInner, { opacity: 1 });
+
+      /* ---------- Scene 2 (1.1–2.0s) ----------
+         周回カメラがドームを正面に捉えるところで、映像から言葉へ主役が移る
+         （video-text-pivot の signature＝重心の受け渡し）。
+         暗幕が下から濃くなる「譲り」と、kicker の着地を同じ瞬間・同じアンカー
+         （左下）に重ね、2つではなく1つの出来事として読ませる。 */
+      tl.fromTo(
+        veil,
+        { opacity: 0.38 },
+        { opacity: 1, duration: 0.8, ease: "power2.out" },
+        SCENE_2,
+      );
+
+      var wordSeq = sequence(
+        [
+          { el: words[0], text: "CITY" },
+          { el: words[1], text: "KART" },
+        ],
+        0.3,
+        0.02,
+        0.3,
+        SCENE_2,
+      );
+
+      wordSeq.forEach(function (step) {
+        tl.fromTo(
+          step.el,
+          { yPercent: 130, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: step.dur, ease: "power3.out" },
+          step.start,
+        );
+      });
+
+      /* ---------- Scene 3 (2.0–3.0s) ----------
+         見出しが2行、下から順にマスクの外へ着地して静止する（held read）。
+         映像は動き続け、文字だけが止まる。exit は無い（次カットの transition が出口）。 */
+      var lineSeq = sequence(
+        [
+          { el: lines[0], text: "実在の街が、" },
+          { el: lines[1], text: "サーキットになる。" },
+        ],
+        0.4,
+        0.018,
+        0.45,
+        SCENE_3,
+      );
+
+      lineSeq.forEach(function (step) {
+        tl.fromTo(
+          step.el,
+          { yPercent: 108, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: step.dur, ease: "power3.out" },
+          step.start,
+        );
+      });
+
+      window.__timelines["01-hook"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>
