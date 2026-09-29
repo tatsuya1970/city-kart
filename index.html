@@ -8,7 +8,7 @@
        まるごと差し替える (scripts/build-en.mjs)。URL を変えるときはこの 2 か所と
        public/sitemap.xml・public/robots.txt・public/llms.txt を直すこと。 -->
   <title>シティカート — 実在の街を走るカートレース</title>
-  <meta name="description" content="PLATEAU 3D都市モデルで再現した広島・福山・松江の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。" />
+  <meta name="description" content="PLATEAU 3D都市モデルで再現した広島・福山・呉・松江の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。" />
   <link rel="canonical" href="https://citykart.jp/" />
   <link rel="alternate" hreflang="ja" href="https://citykart.jp/" />
   <link rel="alternate" hreflang="en" href="https://citykart.jp/en/" />
@@ -16,7 +16,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="City Kart" />
   <meta property="og:title" content="シティカート — 実在の街を走るカートレース" />
-  <meta property="og:description" content="広島・福山・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
+  <meta property="og:description" content="広島・福山・呉・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
   <meta property="og:url" content="https://citykart.jp/" />
   <meta property="og:image" content="https://citykart.jp/ogp.png" />
   <meta property="og:image:width" content="1200" />
@@ -26,9 +26,9 @@
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="シティカート — 実在の街を走るカートレース" />
-  <meta name="twitter:description" content="広島・福山・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
+  <meta name="twitter:description" content="広島・福山・呉・松江の街を、PLATEAU の3D都市モデルでそのままサーキットに。ブラウザで、いますぐ走れます。" />
   <meta name="twitter:image" content="https://citykart.jp/ogp.png" />
-  <!-- 構造化データ。3作をまとめる入口サイト (WebSite) と、その一覧 (ItemList)、
+  <!-- 構造化データ。4作をまとめる入口サイト (WebSite) と、その一覧 (ItemList)、
        よくある質問 (FAQPage) の 3 つ。FAQPage の内容は本文の #faq と同じにすること
        (画面に無い答えを構造化データにだけ書くのは Google の指針に反する)。 -->
   <script type="application/ld+json">
@@ -42,7 +42,7 @@
         "alternateName": "City Kart",
         "url": "https://citykart.jp/",
         "inLanguage": ["ja", "en"],
-        "description": "国土交通省 PLATEAU の3D都市モデルから起こした実在の街を走る、無料のブラウザカートレース 3 作の入口。",
+        "description": "国土交通省 PLATEAU の3D都市モデルから起こした実在の街を走る、無料のブラウザカートレース 4 作の入口。",
         "publisher": { "@id": "https://citykart.jp/#person" }
       },
       {
@@ -53,8 +53,8 @@
       {
         "@type": "ItemList",
         "name": "シティカートのコース",
-        "description": "広島・福山・松江の3コース。いずれも無料でブラウザから走れる。",
-        "numberOfItems": 3,
+        "description": "広島・福山・呉・松江の4コース。いずれも無料でブラウザから走れる。",
+        "numberOfItems": 4,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -106,6 +106,23 @@
               "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
               "contentLocation": { "@type": "City", "name": "松江市" }
             }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "VideoGame",
+              "name": "呉グランプリ Kure Kart",
+              "url": "https://kure.citykart.jp/",
+              "description": "呉駅から大和ミュージアム・蔵本通り・本通り・アレイからすこじまを抜け、音戸大橋の螺旋を上って渡り切る、周回しない12.8kmのワンウェイ。",
+              "genre": "Racing",
+              "gamePlatform": "Web browser",
+              "applicationCategory": "GameApplication",
+              "playMode": ["SinglePlayer", "MultiPlayer"],
+              "isPartOf": { "@id": "https://citykart.jp/#website" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+              "contentLocation": { "@type": "City", "name": "呉市" }
+            }
           }
         ]
       },
@@ -135,7 +152,7 @@
           {
             "@type": "Question",
             "name": "どの街を走れますか？",
-            "acceptedAnswer": { "@type": "Answer", "text": "広島市 (1周7.31kmを2周)、福山市 (鞆の浦まで20.7kmのワンウェイ)、松江市 (1周9.6kmを2周) の3コースです。" }
+            "acceptedAnswer": { "@type": "Answer", "text": "広島市 (1周7.31kmを2周)、福山市 (鞆の浦まで20.7kmのワンウェイ)、呉市 (音戸大橋まで12.8kmのワンウェイ)、松江市 (1周9.6kmを2周) の4コースです。" }
           },
           {
             "@type": "Question",
@@ -428,8 +445,8 @@
     <div class="hero-inner">
       <p class="kicker" data-en="CITY KART">シティカート</p>
       <h1 data-en="The real city is the circuit.">実在の街が、サーキットになる。</h1>
-      <p class="lead" data-en="Hiroshima, Fukuyama and Matsue, rebuilt from MLIT's PLATEAU 3D city models and turned into race courses. Free, in your browser, nothing to install.">
-        広島・福山・松江の街を、国土交通省 PLATEAU の 3D都市モデルからそのまま起こしてコースにしました。
+      <p class="lead" data-en="Hiroshima, Fukuyama, Kure and Matsue, rebuilt from MLIT's PLATEAU 3D city models and turned into race courses. Free, in your browser, nothing to install.">
+        広島・福山・呉・松江の街を、国土交通省 PLATEAU の 3D都市モデルからそのまま起こしてコースにしました。
         無料で、ブラウザだけで、いますぐ走れます。
       </p>
       <div class="actions">
@@ -475,6 +492,24 @@
           <p class="desc" data-en="A one-way sprint from Fukuyama Station past Fukuyama Castle and Kusado Inari Shrine, over the Ashidagawa Ohashi cable-stayed bridge and down the Seto Inland Sea coast to the finish at Tomonoura's stone lantern.">
             福山駅から福山城、草戸稲荷神社を抜け、芦田川大橋を渡って瀬戸内の海沿いを南へ。
             鞆の浦の常夜燈でゴールする、周回しない一本道です。
+          </p>
+          <span class="go" data-en="Race →">走る →</span>
+        </div>
+      </a>
+
+      <a class="course" href="https://kure.citykart.jp/" data-href-en="https://kure.citykart.jp/en/">
+        <div class="shot"><img src="/images/card-kure.jpg" alt="" loading="lazy" width="1600" height="900" /></div>
+        <div>
+          <p class="brand">KURE KART</p>
+          <h3 data-en="Kure Grand Prix">呉グランプリ</h3>
+          <p class="where" data-en="Kure City, Hiroshima">広島県呉市</p>
+          <ul class="spec">
+            <li data-en="12.8 km">12.8 km</li>
+            <li data-en="Point to point">ワンウェイ</li>
+          </ul>
+          <p class="desc" data-en="Start at Kure Station, pass the submarine Akishio and the Yamato Museum, run along Kuramoto-dori and Hondori, past the shipyards and the destroyers and submarines moored at Alley Karasukojima, then climb the double spiral onto the vermilion Ondo Bridge.">
+            呉駅から、潜水艦あきしおと大和ミュージアムの前を抜け、蔵本通り・本通りへ。
+            造船所と、護衛艦や潜水艦が並ぶアレイからすこじまを過ぎ、螺旋を上って朱色の音戸大橋を渡ります。
           </p>
           <span class="go" data-en="Race →">走る →</span>
         </div>
@@ -536,7 +571,7 @@
       <h3>実在の街を走るブラウザカートレース</h3>
       <p>
         シティカートは、国土交通省の Project PLATEAU（プラトー）が公開している3D都市モデルから
-        建物・道路・地形を起こして作った、無料のカートレースゲームです。広島・福山・松江の3つの街があり、
+        建物・道路・地形を起こして作った、無料のカートレースゲームです。広島・福山・呉・松江の4つの街があり、
         どれもブラウザで開くだけで走れます。インストールも登録も課金もありません。
       </p>
       <h3>コースは実在の道路の上</h3>
@@ -559,8 +594,8 @@
       <p>
         City Kart is a free kart racing game built from the 3D city models published by Project PLATEAU,
         the open data programme of Japan's Ministry of Land, Infrastructure, Transport and Tourism.
-        Buildings, roads and terrain all come from that data. There are three cities — Hiroshima, Fukuyama
-        and Matsue — and each one runs in the browser with nothing to install and nothing to pay.
+        Buildings, roads and terrain all come from that data. There are four cities — Hiroshima, Fukuyama,
+        Kure and Matsue — and each one runs in the browser with nothing to install and nothing to pay.
       </p>
       <h3>The courses follow real streets</h3>
       <p>
@@ -594,7 +629,7 @@
         <dt>何人で遊べますか？</dt>
         <dd>1人でも、オンラインで最大8人でも遊べます。「対戦PLAY」でロビーに入ると2人そろった時点で30秒のカウントダウンが始まり、空いた枠は AI のカートが走ります。</dd>
         <dt>どの街を走れますか？</dt>
-        <dd>広島市（1周7.31kmを2周）、福山市（鞆の浦まで20.7kmのワンウェイ）、松江市（1周9.6kmを2周）の3コースです。</dd>
+        <dd>広島市（1周7.31kmを2周）、福山市（鞆の浦まで20.7kmのワンウェイ）、呉市（音戸大橋まで12.8kmのワンウェイ）、松江市（1周9.6kmを2周）の4コースです。</dd>
         <dt>街はどうやって作られていますか？</dt>
         <dd>国土交通省 Project PLATEAU が公開している3D都市モデル（CityGML）から、建物・道路・地形を起こしています。コース沿いの建物には航空写真から作られた PLATEAU の実写テクスチャが貼られ、走行線は実在の道路の上を通ります。</dd>      </dl>
     </div>
@@ -611,7 +646,7 @@
         <dt>How many people can play?</dt>
         <dd>One, or up to eight online. In Online Play a 30-second countdown starts once two players are in the lobby, and any empty slots on the grid are filled by AI karts.</dd>
         <dt>Which cities can I race in?</dt>
-        <dd>Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura) and Matsue (a 9.6 km lap, raced twice).</dd>
+        <dd>Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura), Kure (12.8 km point to point, finishing across the Ondo Bridge) and Matsue (a 9.6 km lap, raced twice).</dd>
         <dt>How are the cities made?</dt>
         <dd>From the 3D city models (CityGML) published by Japan's Project PLATEAU. Buildings, roads and terrain come from that data, buildings along the course wear PLATEAU's aerial photo textures, and the racing line follows real streets.</dd>      </dl>
     </div>
@@ -634,8 +669,8 @@
         en: 'City Kart — Race through real cities',
       };
       var DESC = {
-        ja: 'PLATEAU 3D都市モデルで再現した広島・福山・松江の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。',
-        en: 'Free browser kart racing through Hiroshima, Fukuyama and Matsue, rebuilt from PLATEAU 3D city models. No install, works on phones, online races for up to 8.',
+        ja: 'PLATEAU 3D都市モデルで再現した広島・福山・呉・松江の街を走る、無料のブラウザカートレース。インストール不要、スマホ対応、最大8人のオンライン対戦つき。',
+        en: 'Free browser kart racing through Hiroshima, Fukuyama, Kure and Matsue, rebuilt from PLATEAU 3D city models. No install, works on phones, online races for up to 8.',
       };
       // 日本語の原文はHTMLに書いてあるので、初回に控えておいて ja へ戻すときに使う。
       var els = [].slice.call(document.querySelectorAll('[data-en], [data-en-html]'));

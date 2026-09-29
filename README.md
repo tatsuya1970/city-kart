@@ -8,6 +8,7 @@ https://citykart.jp/
 | --- | --- | --- |
 | [広島グランプリ](https://hiroshima.citykart.jp/) | 1周 7.31 km × 2周 | [hiroshima-kart](https://github.com/tatsuya1970/hiroshima-kart) |
 | [福山グランプリ](https://fukuyama.citykart.jp/) | 20.7 km ワンウェイ | [fukuyama-kart](https://github.com/tatsuya1970/fukuyama-kart) |
+| [呉グランプリ](https://kure.citykart.jp/) | 12.8 km ワンウェイ | [kure-kart](https://github.com/tatsuya1970/kure-kart) |
 | [松江グランプリ](https://matsue.citykart.jp/) | 1周 9.6 km × 2周 | [matsue-kart](https://github.com/tatsuya1970/matsue-kart) |
 
 ## 構成

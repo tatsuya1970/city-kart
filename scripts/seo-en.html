@@ -1,7 +1,7 @@
 <!-- 英語ページ (/en/) の head。index.html の SEO:ja ブロックと差し替わる
      (scripts/build-en.mjs)。日本語側を直したらこちらも直すこと。 -->
 <title>City Kart — Race through real Japanese cities</title>
-<meta name="description" content="Free browser kart racing through Hiroshima, Fukuyama and Matsue, rebuilt from Japan's PLATEAU 3D city models. Nothing to install, works on phones, online races for up to 8." />
+<meta name="description" content="Free browser kart racing through Hiroshima, Fukuyama, Kure and Matsue, rebuilt from Japan's PLATEAU 3D city models. Nothing to install, works on phones, online races for up to 8." />
 <link rel="canonical" href="https://citykart.jp/en/" />
 <link rel="alternate" hreflang="ja" href="https://citykart.jp/" />
 <link rel="alternate" hreflang="en" href="https://citykart.jp/en/" />
@@ -9,7 +9,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="City Kart" />
 <meta property="og:title" content="City Kart — Race through real Japanese cities" />
-<meta property="og:description" content="Hiroshima, Fukuyama and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
+<meta property="og:description" content="Hiroshima, Fukuyama, Kure and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
 <meta property="og:url" content="https://citykart.jp/en/" />
 <meta property="og:image" content="https://citykart.jp/ogp-en.png" />
 <meta property="og:image:width" content="1200" />
@@ -19,7 +19,7 @@
 <meta property="og:locale:alternate" content="ja_JP" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="City Kart — Race through real Japanese cities" />
-<meta name="twitter:description" content="Hiroshima, Fukuyama and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
+<meta name="twitter:description" content="Hiroshima, Fukuyama, Kure and Matsue, rebuilt from PLATEAU 3D city models and turned into race courses. Free, in your browser." />
 <meta name="twitter:image" content="https://citykart.jp/ogp-en.png" />
 <script type="application/ld+json">
 {
@@ -32,7 +32,7 @@
       "alternateName": "シティカート",
       "url": "https://citykart.jp/",
       "inLanguage": ["en", "ja"],
-      "description": "Three free browser kart racing games set in real Japanese cities, built from the PLATEAU 3D city models.",
+      "description": "Four free browser kart racing games set in real Japanese cities, built from the PLATEAU 3D city models.",
       "publisher": { "@id": "https://citykart.jp/#person" }
     },
     {
@@ -43,8 +43,8 @@
     {
       "@type": "ItemList",
       "name": "City Kart courses",
-      "description": "Three courses — Hiroshima, Fukuyama and Matsue. All free to play in the browser.",
-      "numberOfItems": 3,
+      "description": "Four courses — Hiroshima, Fukuyama, Kure and Matsue. All free to play in the browser.",
+      "numberOfItems": 4,
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -96,6 +96,23 @@
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
             "contentLocation": { "@type": "City", "name": "Matsue" }
           }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "VideoGame",
+            "name": "Kure Kart",
+            "url": "https://kure.citykart.jp/en/",
+            "description": "A 12.8 km point-to-point run from Kure Station past the Yamato Museum, Kuramoto-dori, Hondori and Alley Karasukojima, finishing across the Ondo Bridge after climbing its double spiral.",
+            "genre": "Racing",
+            "gamePlatform": "Web browser",
+            "applicationCategory": "GameApplication",
+            "playMode": ["SinglePlayer", "MultiPlayer"],
+            "isPartOf": { "@id": "https://citykart.jp/#website" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+            "contentLocation": { "@type": "City", "name": "Kure" }
+          }
         }
       ]
     },
@@ -125,7 +142,7 @@
         {
           "@type": "Question",
           "name": "Which cities can I race in?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura) and Matsue (a 9.6 km lap, raced twice)." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Hiroshima (a 7.31 km lap, raced twice), Fukuyama (20.7 km point to point, finishing at Tomonoura), Kure (12.8 km point to point, finishing across the Ondo Bridge) and Matsue (a 9.6 km lap, raced twice)." }
         },
         {
           "@type": "Question",
